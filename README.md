@@ -5,9 +5,14 @@ Feedback web application for Innopolis University
 ## What you should do to run the code
 ### First 
 You need to install [Docker](https://www.docker.com/)
-### Second 
+
+### Second
+Clone this project on your computer
+
+### Third 
 With terminal go to directory web_app_swp
-### Third
+
+### Fourth
 In terminal run
 ```bash
 docker-compose up --build
