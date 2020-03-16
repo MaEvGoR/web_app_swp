@@ -3,7 +3,12 @@ from backend import be_worker
 
 app = Flask(__name__)
 
-
+# Temporary for CORS. Should not be needed with Docker (when both apps are on same origin)
+@app.after_request
+def allow_cors(response):
+	response.headers['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+	response.headers['Access-Control-Allow-Headers'] = 'content-type'
+	return response
 
 @app.route('/')
 @app.route('/home', methods=['GET'])
@@ -16,14 +21,13 @@ def login_page():
 
 @app.route('/log_in', methods=['POST'])
 def log_in():
-	login_text = request.form['login']
-	password_text = request.form['password']
-	print("{}:{}".format(login_text, password_text))
+	email_text = request.json['email']
+	password_text = request.json['password']
 
-	if be_worker.login_password_verification(login_text, password_text):
-		return redirect(url_for('base'))
+	if be_worker.login_password_verification(email_text, password_text):
+		return jsonify({'name': 'rufina', 'email': 'r.talalaeva@innopolis.university'})
 	else:
-		return redirect(url_for('error'))
+		abort(401)
 
 
 @app.route('/base', methods=['GET'])
