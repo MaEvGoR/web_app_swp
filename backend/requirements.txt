@@ -1,0 +1,4 @@
+flask
+redis
+flask_bootstrap
+psycopg2-binary>=2.7

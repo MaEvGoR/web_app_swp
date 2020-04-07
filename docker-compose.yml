@@ -5,17 +5,11 @@ version: ​'​​3'​
 		
 		postgres:
 			image: ​postgres​
-			environment:
-				POSTGRES_USER=${POSTGRES_USER}
-				POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-				POSTGRES_DB: ​SWPDB
-			volumes:
-				- ./postgres-data/postgres:/var/lib/postgresql/data
-
+			
 		backend:
 			build:
 				context: backend
-				dockerfile: Dockerfile.backend
+				dockerfile: Dockerfile
 			environment:
 				- APP_ENV=dev
 			depends_on:
@@ -40,15 +34,3 @@ version: ​'​​3'​
 				- "40002:40002"
 			volumes:
 				- ./frontend:/app/src	
-
-		worker:
-			build:
-				context: backend
-				dockerfile: Dockerfile.worker
-			environment:
-				- APP_ENV=dev
-			depends_on:
-				- postgres
-				- redis
-			volumes:
-				- ./backend:/code
