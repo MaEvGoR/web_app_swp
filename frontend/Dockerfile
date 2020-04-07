@@ -1,10 +1,10 @@
 FROM node:10
 
 WORKDIR /app
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm install
 ENV PATH /app/node_modules/.bin:$PATH
-ADD frontend /app/src
+ADD . /app/src
 WORKDIR /app/src
 RUN npm run build
-CMD npm run start
+CMD npm run serve

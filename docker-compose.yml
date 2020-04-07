@@ -1,36 +1,33 @@
-version: ​'​​3'​
-	services:
-		redis:
-			image: ​redis​
-		
-		postgres:
-			image: ​postgres​
-			
-		backend:
-			build:
-				context: backend
-				dockerfile: Dockerfile
-			environment:
-				- APP_ENV=dev
-			depends_on:
-				- postgres
-				- redis
-			ports:
-				- "40001:40001"
-			volumes:
-				- ./backend:/code
-
-		frontend:
-			build:
-				context: frontend
-				dockerfile: Dockerfile
-			environment:
-				- APP_ENV=dev
-				- APP_BACKEND_URL=backend:40001
-				- APP_FRONTEND_PORT=40002
-			depends_on:
-				- backend
-			ports:
-				- "40002:40002"
-			volumes:
-				- ./frontend:/app/src	
+version: ​'3.3'
+services:
+  redis:
+    image: ​redis​
+  postgres:
+    image: ​postgres​
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      - APP_ENV=dev
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "40001:40001"
+    volumes:
+      - ./backend:/code
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    environment:
+      - APP_ENV=dev
+      - APP_BACKEND_URL=backend:40001
+      - APP_FRONTEND_PORT=40002
+    depends_on:
+      - backend
+    ports:
+      - "40002:40002"
+    volumes:
+      - ./frontend:/app/src
