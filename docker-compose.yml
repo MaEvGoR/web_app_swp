@@ -1,14 +1,5 @@
 version: ​'​​3'​
 	services:
-		web:
-			build: ​.​
-			ports:
-				- ​"​​5000:5000"​
-			volumes:
-				- ​.:/code
-			depends_on:
-				- postgres
-
 		redis:
 			image: ​redis​
 		
@@ -23,8 +14,8 @@ version: ​'​​3'​
 
 		backend:
 			build:
-				context: .
-				dockerfile: ./docker/backend/Dockerfile
+				context: backend
+				dockerfile: Dockerfile.backend
 			environment:
 				- APP_ENV=dev
 			depends_on:
@@ -37,8 +28,8 @@ version: ​'​​3'​
 
 		frontend:
 			build:
-				context: .
-				dockerfile: ./docker/frontend/Dockerfile
+				context: frontend
+				dockerfile: Dockerfile
 			environment:
 				- APP_ENV=dev
 				- APP_BACKEND_URL=backend:40001
@@ -52,12 +43,12 @@ version: ​'​​3'​
 
 		worker:
 			build:
-				context: .
-				dockerfile: ./docker/worker/Dockerfile
+				context: backend
+				dockerfile: Dockerfile.worker
 			environment:
 				- APP_ENV=dev
 			depends_on:
 				- postgres
 				- redis
 			volumes:
-				- .:/code
+				- ./backend:/code
