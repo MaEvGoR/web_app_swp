@@ -21,7 +21,7 @@ This command create image for this project and starts the site on [http://localh
 
 If you want to rerun a container in the background, just run
 ```bash
-docker-compose up -d <container-name>backend
+docker-compose up -d <container-name>
 ```
 
 If you want to rebuild and rerun the container
