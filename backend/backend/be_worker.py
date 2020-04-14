@@ -1,3 +1,5 @@
+import sys
+sys.path.append('../')
 from database import db_worker
 
 def hash_id_from_email(email):

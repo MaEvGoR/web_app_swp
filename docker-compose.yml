@@ -1,33 +1,54 @@
-version: ​'3'
+version: '3'
 services:
-  redis:
-    image: ​redis​
+  nginx:
+    build: ./nginx/
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+      - frontend
+    networks:
+      - servers
   postgres:
-    image: ​postgres​
+    image: postgres:12.1-alpine
+    networks:
+      - postgres_db
+    ports:
+      - "5432:5432"
   backend:
     build:
       context: backend
       dockerfile: Dockerfile
     environment:
       - APP_ENV=dev
+    networks:
+      - servers
+      - postgres_db
     depends_on:
       - postgres
-      - redis
     ports:
-      - "40001:40001"
+      - "5000:5000"
     volumes:
-      - ./backend:/code
+      - ./backend:/backend
   frontend:
     build:
       context: frontend
       dockerfile: Dockerfile
     environment:
       - APP_ENV=dev
-      - APP_BACKEND_URL=backend:40001
-      - APP_FRONTEND_PORT=40002
+      - APP_BACKEND_URL=backend:5000
+      - APP_FRONTEND_PORT=3000
+    networks:
+      - servers
     depends_on:
       - backend
     ports:
-      - "40002:40002"
+      - "3000:3000"
     volumes:
-      - ./frontend:/app/src
+      - ./frontend/src:/app/src
+
+networks:
+  servers:
+    driver: bridge
+  postgres_db:
+    driver: bridge
