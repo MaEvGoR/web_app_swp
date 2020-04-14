@@ -17,7 +17,22 @@ In terminal run
 ```bash
 docker-compose up --build
 ```
-This command create image for this project and start script webapp.py
+This command create image for this project and starts the site on [http://localhost/](http://localhost/)
+
+If you want to rerun a container in the background, just run
+```bash
+docker-compose up -d <container-name>backend
+```
+
+If you want to rebuild and rerun the container
+```bash
+docker-compose up -d --build <container-name>
+```
+
+Possible options for `<container-name>` are:
+  - backend
+  - frontend
+  - nginx
 
 ## Support
 Write to @ma_evgor if you have any problems with installation
