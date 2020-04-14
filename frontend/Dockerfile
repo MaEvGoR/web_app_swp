@@ -1,13 +1,14 @@
 FROM node:13-alpine
 
+RUN mkdir -p /app
+
 WORKDIR /app
-COPY package*.json ./
+
+COPY package.json /app/
 RUN npm install
-ENV PATH /app/node_modules/.bin:$PATH
-ADD . /app/src
-WORKDIR /app/src
 
-EXPOSE 3000
+ADD . /app
 
-RUN npm run build
+EXPOSE 8080
+
 CMD npm run serve
