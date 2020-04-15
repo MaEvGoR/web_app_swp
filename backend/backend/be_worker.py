@@ -8,10 +8,6 @@ def hash_id_from_email(email):
 
 	return hash_int
 
-
-
-
-
 def login_password_verification(login, password):
 
 	data = db_worker.get_login_password_info()

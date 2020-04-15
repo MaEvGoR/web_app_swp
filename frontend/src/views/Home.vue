@@ -72,8 +72,8 @@
     },
     methods: {
       async login() {
-        const backend_url = 'http://localhost:5000'; // TODO: fill this
-        const response = await fetch(`${backend_url}/log_in`, {
+        // const backend_url = 'http://localhost:3000'; // TODO: fill this 
+        const response = await fetch('/api/log_in', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
