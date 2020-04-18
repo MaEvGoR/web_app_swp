@@ -1,17 +1,11 @@
 <template>
 	<v-app>
-    <v-app-bar
-      app
-      color="indigo"
-      dark
-    >
-      <v-toolbar-title>Software Project</v-toolbar-title>
-    </v-app-bar>
+    <Navbar/>
     <v-content>
       <router-view />
     </v-content>
     <v-footer
-      color="indigo"
+      color="#160F30"
       app
     >
       <span class="white--text">&copy; 2019</span>
@@ -20,8 +14,12 @@
 </template>
 
 <script>
+
+import Navbar from '@/components/Navbar'
+
 export default {
-	name: 'App',
+  name: 'App',
+  components: { Navbar }
 }
 
 </script>
