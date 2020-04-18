@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-
 api = Blueprint('api', __name__, url_prefix='/api')
 
 # Until migration to postgres
@@ -23,6 +22,7 @@ def log_in():
 		abort(401)
 
 	return jsonify({
-		'name': 'rufina',
+		'name': 'maxim',
 		'email': 'r.talalaeva@innopolis.university',
+		'status': 'student',
 	})
