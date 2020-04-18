@@ -1,16 +1,16 @@
 <template>
   <v-container
+      color="transparent"
       fluid
       fill-height
     >
     <p v-if="user == null">
       Not logged in
     </p>
-    <p v-else>
+    <p v-else route :to="route">
       Name: {{ user.name }}. Email: {{ user.email }}
     </p>
     
-
     <v-layout align-center justify-end row fill-height>
       <v-flex
         xs12
@@ -58,6 +58,9 @@
 </template>
 
 <script>
+  
+  
+
   export default {
     props: {
       source: String,
@@ -67,7 +70,7 @@
         email: '',
         password: '',
         showPassword: false,
-        user: null,
+        user: null
       };
     },
     methods: {
@@ -87,9 +90,13 @@
         const json = await response.json();
         console.log(json);
         this.user = json;
+        // ${this.user.status} this doesn't work, 
+        // I don't know why new data from backend is not sent.
+        // so, for now here's just /student route, but should depend on status of loginned person
+        this.$router.push({path:`/student`});
         this.email = '';
         this.password = '';
       }
-    }
+    } 
   }
 </script>
