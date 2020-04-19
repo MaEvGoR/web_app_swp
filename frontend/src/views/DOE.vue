@@ -30,12 +30,12 @@
           </v-flex>
           <v-flex xs12 sm10 md8 lg6>
             <h1 class="text-right call_for_action">
-                <-   Create new feedback form
+                -   Create new feedback form
             </h1>
           </v-flex>
           <v-flex xs12 sm10 md8 lg6>
             <h1 class="text-center call_for_action">
-                See results ->
+                See results -
             </h1>
           </v-flex>
           <v-flex xs12 sm8 md6 lg4>
