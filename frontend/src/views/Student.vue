@@ -42,12 +42,12 @@ export default {
     return {
       message: '',
       courses: [
-        {name: 'Software Project', tofill: 'true'},
-        {name: 'Control Theory', tofill: 'true'},
-        {name: 'Networks', tofill: 'true'},
-        {name: 'Probability and Statistics', tofill: 'true'},
-        {name: 'Sport', tofill: 'true'},
-        {name: 'Artificial Intelligence', tofill: 'true'}
+        {name: 'Software Project'},
+        {name: 'Control Theory'},
+        {name: 'Networks'},
+        {name: 'Probability and Statistics'},
+        {name: 'Sport'},
+        {name: 'Artificial Intelligence'}
       ]
     }
   },
