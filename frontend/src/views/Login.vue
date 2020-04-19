@@ -1,17 +1,12 @@
 <template>
   <v-container
+      color="transparent"
       fluid
       fill-height
     >
-    <p v-if="user == null">
-      Not logged in
-    </p>
-    <p v-else>
-      Name: {{ user.name }}. Email: {{ user.email }}
-    </p>
     
-
-    <v-layout align-center justify-end row fill-height>
+    
+    <v-layout align-center justify-center row fill-height>
       <v-flex
         xs12
         sm8
@@ -19,7 +14,7 @@
         offset-xs1
       >
         <v-card class="mx-auto mt-5">
-          <v-toolbar color = "primary"
+          <v-toolbar color = "#241663"
             dark
             flat>
             <v-toolbar-title>
@@ -49,15 +44,24 @@
           <v-card-actions>
             <!-- <v-btn color="success">Register</v-btn> -->
             <v-spacer></v-spacer>
-            <v-btn color="info" @click="login">Login</v-btn>
+            <v-btn dark color="#241663" @click="login">Login</v-btn>
           </v-card-actions>
         </v-card>
+        <p v-if="user == null">
+          Not logged in
+        </p>
+        <p v-else route :to="route">
+          Name: {{ user.name }}. Email: {{ user.email }}
+        </p>
       </v-flex>
     </v-layout>
   </v-container>    
 </template>
 
 <script>
+  
+  
+
   export default {
     props: {
       source: String,
@@ -67,7 +71,7 @@
         email: '',
         password: '',
         showPassword: false,
-        user: null,
+        user: null
       };
     },
     methods: {
@@ -87,9 +91,13 @@
         const json = await response.json();
         console.log(json);
         this.user = json;
+        // ${this.user.status} this doesn't work, 
+        // I don't know why new data from backend is not sent.
+        // so, for now here's just /student route, but should depend on status of loginned person
+        this.$router.push({path:`/${this.user.status}`});
         this.email = '';
         this.password = '';
       }
-    }
+    } 
   }
 </script>
