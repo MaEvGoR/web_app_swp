@@ -21,7 +21,6 @@
 					<span><v-text-field v-model="surveyName" label="Name of Survey" solo outlined
             shaped hint="Name of Course" :rules="['Required']"/></span>
 					<div v-for="(question, index) in questions" :key="index">
-						<!-- {{question.title}} -->
 						<v-text-field v-model="question.title" hint="Question"/>
 						<v-text-field v-if="question.type==='text'" background-color="white" label="Answer" disabled hint="Answer to the question"/>
 						<v-radio-group row v-if="question.type==='radio'">
@@ -76,7 +75,6 @@ export default{
 			});
 			if(!response.ok) return;
 			const json = await response.json();
-			// console.log(json);
 			this.$router.push({path:`/${this.$store.state.status}`});
 		}
 	}

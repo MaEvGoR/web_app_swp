@@ -89,7 +89,7 @@
         });
         if(!response.ok) return;
         const json = await response.json();
-        console.log(json);
+        // console.log(json);
         this.user = json;
         // ${this.user.status} this doesn't work, 
         // I don't know why new data from backend is not sent.

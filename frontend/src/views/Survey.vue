@@ -75,7 +75,7 @@ export default{
 			});
 			if(!response.ok) return;
 			const json = await response.json();
-			console.log(json);
+			// console.log(json);
 			this.$router.push({path:`/${this.$store.state.status}`});
 		}
 	}

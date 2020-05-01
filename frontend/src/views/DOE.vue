@@ -63,7 +63,7 @@ export default {
   },
   methods: {
     clicked() {
-      console.log("clicked");
+      // console.log("clicked");
       this.$router.push({path:`/template`});
     },
     getDayPart(){
