@@ -21,10 +21,16 @@ def log_in():
 	if not login_password_verification(email_text, password_text):
 		abort(401)
 
+	status = ''
+	if email_text[-3:] == '.ru':
+		status = 'doe'
+	else:
+		status = 'student'
+
 	return jsonify({
-		'name': 'maxim',
+		'name': 'rufina',
 		'email': 'r.talalaeva@innopolis.university',
-		'status': 'student',
+		'status': status,
 	})
 
 @api.route('/new_survey', methods=['POST'])
@@ -36,4 +42,18 @@ def new_survey():
 
 	return jsonify({
 		'survey': survey_name,
+	})
+
+@api.route('/submit_survey', methods=['POST'])
+def submit_survey():
+	if not request.is_json:
+		abort(400)
+	survey_name = request.json.get('surveyName')
+	questions = request.json.get('answers')
+	# answers = []
+	# for i in questions:
+	# 	answers.append(i.answer)
+
+	return jsonify({
+		'answers': questions
 	})
