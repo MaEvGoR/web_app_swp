@@ -21,7 +21,7 @@
           min-height="200"
         >
           <v-flex xs12 sm6 md4 lg4 v-for="course in courses" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="clicked">
+            <v-card class="text-center ma-2" color="#241663" @click="clicked(course.name)">
               <v-card-text>
                 <div class="heading">
                   {{course.name}}
@@ -52,8 +52,9 @@ export default {
     }
   },
   methods: {
-    clicked() {
-      console.log("clicked");
+    clicked(name) {
+      this.$store.commit("changeSurveyName", name);
+      this.$router.push({path:`/survey`});
     },
     getDayPart(){
       const hours = new Date().getHours();
