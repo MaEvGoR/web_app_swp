@@ -26,3 +26,14 @@ def log_in():
 		'email': 'r.talalaeva@innopolis.university',
 		'status': 'student',
 	})
+
+@api.route('/new_survey', methods=['POST'])
+def new_survey():
+	if not request.is_json:
+		abort(400)
+	survey_name = request.json.get('surveyName')
+	questions = request.json.get('questions')
+
+	return jsonify({
+		'survey': survey_name,
+	})
