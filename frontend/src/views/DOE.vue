@@ -59,19 +59,12 @@ export default {
   data(){
     return {
       message: '',
-      courses: [
-        {name: 'Software Project', tofill: 'true'},
-        {name: 'Control Theory', tofill: 'true'},
-        {name: 'Networks', tofill: 'true'},
-        {name: 'Probability and Statistics', tofill: 'true'},
-        {name: 'Sport', tofill: 'true'},
-        {name: 'Artificial Intelligence', tofill: 'true'}
-      ]
     }
   },
   methods: {
     clicked() {
-      console.log("clicked");
+      // console.log("clicked");
+      this.$router.push({path:`/template`});
     },
     getDayPart(){
       const hours = new Date().getHours();

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Student from '../views/Student.vue'
 import DOE from '../views/DOE.vue'
+import NewSurvey from '../views/NewSurvey.vue'
+import Survey from '../views/Survey.vue'
 
 Vue.use(VueRouter)
 
@@ -13,6 +15,11 @@ const routes = [
     component: Login
   },
   {
+    path: '/template',
+    name: 'NewSurvey',
+    component: NewSurvey
+  },
+  {
     path: '/student',
     name: 'Student',
     component: Student
@@ -21,6 +28,11 @@ const routes = [
     path: '/doe',
     name: 'DOE',
     component: DOE
+  },
+  {
+    path: '/survey',
+    name: 'Survey',
+    component: Survey
   }
 ]
 
