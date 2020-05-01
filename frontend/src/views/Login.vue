@@ -95,6 +95,7 @@
         // I don't know why new data from backend is not sent.
         // so, for now here's just /student route, but should depend on status of loginned person
         this.$router.push({path:`/${this.user.status}`});
+        this.$store.commit("changeStatus", this.user.status);
         this.email = '';
         this.password = '';
       }
