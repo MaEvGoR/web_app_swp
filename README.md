@@ -3,7 +3,10 @@ Web application for academic staff assessment.
 The goal of the project is to make anonymous feedback interface and availability to represent output data in a user-friendly format.
 The main target is making web application that is available for Innopolis University-related group of students, administration and professorship to collect, process and represent data.
 
-The development team uses vue.js for the frontend part and flask for the backend.
+<img src="frontend/src/assets/sample.png">
+
+
+The development team uses vue.js with vuetify plugin for the frontend part and flask for the backend.
 Instructions to launch the application on local storage with docker:
 
 ## What you should do to run the application locally
