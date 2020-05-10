@@ -7,6 +7,8 @@ export default new Vuex.Store({
   state: {
     status: '',
     surveyName: '',
+    surveyList: {},
+    id: '',
   },
   mutations: {
     changeStatus (state, newStatus) {
@@ -14,6 +16,17 @@ export default new Vuex.Store({
     },
     changeSurveyName (state, newName) {
       state.surveyName = newName;
+    },
+    changeId(state, id){
+      state.id = id;
+    }
+  },
+  getters: {
+    getSurveyList: state => {
+      return state.surveyList;
+    },
+    changeSurveyList (state, newSurveylist) { 
+      state.surveyList = newSurveylist;
     },
   },
   actions: {
