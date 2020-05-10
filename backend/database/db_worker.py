@@ -308,6 +308,7 @@ def get_results(survey_id):
 
     return_obj = {'_id': survey_id,
                   'name': survey_object['name'],
+                  'course_name': course_from_survey(survey_id)['name'],
                   'creation_time': survey_object['creation_time'],
                   'expiration_time': survey_object['expiration_time'],
                   'description': survey_object['description'],
@@ -324,9 +325,22 @@ def get_results(survey_id):
                                   'options_flag': True if question_result_obj['type'] == 'radio' else False,
                                   'options': question_result_obj['options'] if question_result_obj[
                                                                                    'type'] == 'radio' else None,
-                                  'answers': []}
+                                  'answers': [] if question_result_obj['type'] != 'radio' else {}}
 
         answers_objects = list(answers.find({'question_id': return_question_object['question_id']}))
 
         for ans_obj in answers_objects:
-            pass
+
+            if return_question_object['options_flag']:
+                # count
+                if ans_obj['answer'] in return_question_object['answers'].keys():
+                    return_question_object['answers'][ans_obj['answer']] += 1
+                else:
+                    return_question_object['answers'][ans_obj['answer']] = 1
+            else:
+                # just add
+                return_question_object['answers'].append({'answer': ans_obj['answer']})
+
+        return_obj['results'].append(return_question_object)
+
+    return return_obj

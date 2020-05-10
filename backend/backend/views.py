@@ -113,7 +113,6 @@ def get_results():
         abort(400)
 
     survey_id = request.json.get('survey_id')
-
     res = db_worker.get_results(survey_id)
 
     return jsonify(res)
