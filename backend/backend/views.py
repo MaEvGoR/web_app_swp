@@ -96,12 +96,12 @@ def get_survey():
 def submit_survey():
     if not request.is_json:
         abort(400)
-    survey_name = request.json.get('surveyName')
-    questions = request.json.get('answers')
-    # answers = []
-    # for i in questions:
-    # 	answers.append(i.answer)
 
-    return jsonify({
-        'answers': questions
-    })
+    user_id = request.json.get('_id')
+    survey_id = request.json.get('survey_id')
+    course_id = request.json.get('course_id')
+    questions = request.json.get('answers')
+
+    res = db_worker.save_answers(user_id, survey_id, course_id, questions)
+
+    return jsonify(res)

@@ -224,6 +224,46 @@ def create_new_survey(year, course_id, doe_id, title, n_questions):
 
     return {'response': 200}
 
+def save_answers(user_id, survey_id, course_id, questions_answers):
+    # {'user_id': '7bsd7fg7b3eybdv834',
+    #      'survey_id': 'hsfdb82uejdvu9b29',
+    #      'course_id': 'fjns019eih82b90enj',
+    #      'questions': [
+    #          {'question_id':'isdn29weivfh29evnd',
+    #           'type': 'text',
+    #           'answer': 'awesome'},
+    #          {'question_id': 'idwnj192ewinjv92osig',
+    #           'type': 'text',
+    #           'answer': 'cool'},
+    #          {'question_id': 'asudh91wncdv9328duqw',
+    #           'type': 'radio',
+    #           'answer': 'Excellent'}
+    #      ]}
+
+    answers_objects = []
+    for raw_ans in questions_answers:
+        ans_object = {'student_id': ObjectId(user_id),
+                      'course_id': ObjectId(course_id),
+                      'survey_id': ObjectId(survey_id),
+                      'question_id': ObjectId(raw_ans['question_id']),
+                      'answer': raw_ans['answer']}
+
+        answers_objects.append(ans_object)
+
+    for ans_object in answers_objects:
+        # update if exists
+        # insert if doesn't
+
+        answers.update({'student_id': ans_object['student_id'],
+                        'course_id': ans_object['course_id'],
+                        'survey_id': ans_object['survey_id'],
+                        'question_id': ans_object['question_id']},
+                       ans_object,
+                       True)
+
+    return {'response': 200}
+
+
 # def check_login_password(email, password):
 #     query_result = list(students.find({'email': email, 'password': password}))
 #     return query_result
