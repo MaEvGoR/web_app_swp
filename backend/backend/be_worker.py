@@ -1,4 +1,5 @@
-from database import db_worker
+from backend.database import db_worker
+
 
 def hash_id_from_email(email):
 	hash_int = 0

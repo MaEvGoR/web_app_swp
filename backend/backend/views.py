@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request, abort
-api = Blueprint('api', __name__, url_prefix='/api')
 
-# Until migration to postgres
-def login_password_verification(email, password):
-	return True
+from database import db_worker
+
+
+api = Blueprint('api', __name__, url_prefix='/api')
 
 
 @api.route('/example')
@@ -18,20 +18,12 @@ def log_in():
 	email_text = request.json.get('email')
 	password_text = request.json.get('password')
 
-	if not login_password_verification(email_text, password_text):
+	res = db_worker.check_login_password(email_text, password_text)
+
+	if 'error' in res.keys():
 		abort(401)
 
-	status = ''
-	if email_text[-3:] == '.ru':
-		status = 'doe'
-	else:
-		status = 'student'
-
-	return jsonify({
-		'name': 'rufina',
-		'email': 'r.talalaeva@innopolis.university',
-		'status': status,
-	})
+	return jsonify(res)
 
 @api.route('/new_survey', methods=['POST'])
 def new_survey():
