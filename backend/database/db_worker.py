@@ -47,6 +47,20 @@ def course_from_survey(survey_id):
     return query[0]
 
 
+def get_courses(year):
+    query = list(courses.find({'year':year}))
+    return [{'name': course['name'], '_id': str(course['_id'])} for course in query]
+
+
+def get_all_years():
+    query = list(courses.find({}))
+    years = set()
+    for course in query:
+        years.add(course['year'])
+
+    return [{'year': year} for year in years]
+
+
 def get_student_courses(student_id):
     # return list of courses of student
 
@@ -155,29 +169,19 @@ def check_login_password(email, password):
     query_result = list(students.find({'email': email, 'password': password}))
 
     if len(query_result) != 0:
-        return_state = {'email': email,
-        'name': query_result[0]['fname'],
-        'status': 'student',
-        '_id': str(query_result[0]['_id'])}
+        return_state = {'status': 'student',
+                        '_id': str(query_result[0]['_id'])}
 
         return return_state
 
-
     query_result = list(doe.find({'email': email, 'password': password}))
     if len(query_result) != 0:
-        return_state = {'email': email,
-                        'name': query_result[0]['fname'],
-                        'status': 'doe',
+        return_state = {'status': 'doe',
                         '_id': str(query_result[0]['_id'])}
 
         return return_state
 
     return {'error': 401}
-
-
-
-
-
 
 # def check_login_password(email, password):
 #     query_result = list(students.find({'email': email, 'password': password}))
