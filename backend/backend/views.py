@@ -43,6 +43,18 @@ def student_unfilled():
     return jsonify({'course': required_course, 'surveys': unfilled_surveys})
 
 
+@api.route('/student_unfilled/pass_survey', methods=['POST'])
+def student_unfilled_survey():
+    if not request.is_json:
+        abort(400)
+
+    survey_name = request.json.get('name')
+    survey_id = request.json.get('_id')
+    not_passed_questions = db_worker.get_unfilled_questions(current_student_id, survey_id)
+
+    return jsonify({"survey_id": survey_id, "name": survey_name, "questions": not_passed_questions})
+
+
 @api.route('/log_in', methods=['POST'])
 def log_in():
     if not request.is_json:
