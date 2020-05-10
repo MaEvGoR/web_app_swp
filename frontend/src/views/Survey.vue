@@ -22,7 +22,7 @@
 					<div v-for="(question, index) in questions" :key="index">
 						{{question.title}}
 						<v-text-field v-if="question.type==='text'" v-model="question.answer" label="Answer" hint="Answer to the question"/>
-						<v-radio-group row v-if="question.type==='radio'" :rules="[v => !!v || 'It is required']">
+						<v-radio-group row v-if="question.type==='radio'">
 							<v-radio 
 								v-for="(option,idx) in question.options"
 								:key="idx"
