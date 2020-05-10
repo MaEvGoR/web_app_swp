@@ -91,13 +91,13 @@ def get_student_unfilled_courses(student_id):
 
     student_surveys = get_student_surveys_ids(student_id)
 
-    unfilled_surveys_courses = []
+    unfilled_surveys_courses = set()
     for survey_id in student_surveys:
 
         # todo date checking!!!
 
         if num_of_empty_answers(student_id, survey_id) != 0:
-            unfilled_surveys_courses.append({'name': course_from_survey(survey_id)['name']})
+            unfilled_surveys_courses.add(course_from_survey(survey_id)['name'])
 
     return list(unfilled_surveys_courses)
 
