@@ -70,9 +70,10 @@ def new_survey():
     year = request.json.get('year')
     course_id = request.json.get('course_id')
     user_id = request.json.get('user_id')
+    survey_title = request.json.get('title')
     questions = request.json.get('questions')
 
-    res = db_worker.create_new_survey(year, course_id, user_id, questions)
+    res = db_worker.create_new_survey(year, course_id, user_id, survey_title, questions)
 
     return jsonify(res)
 
