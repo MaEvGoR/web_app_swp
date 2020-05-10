@@ -253,7 +253,7 @@ def save_answers(user_id, survey_id, course_id, questions_answers):
         ans_object = {'student_id': ObjectId(user_id),
                       'course_id': ObjectId(course_id),
                       'survey_id': ObjectId(survey_id),
-                      'question_id': ObjectId(raw_ans['question_id']),
+                      'question_id': ObjectId(raw_ans['_id']),
                       'answer': raw_ans['title']}
 
         answers_objects.append(ans_object)
