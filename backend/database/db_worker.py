@@ -47,8 +47,8 @@ def course_from_survey(survey_id):
     return query[0]
 
 
-def get_all_courses():
-    query = list(courses.find({}))
+def get_courses(year):
+    query = list(courses.find({'year':year}))
     return [{'name': course['name'], '_id': str(course['_id'])} for course in query]
 
 
