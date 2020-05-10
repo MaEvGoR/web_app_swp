@@ -169,18 +169,14 @@ def check_login_password(email, password):
     query_result = list(students.find({'email': email, 'password': password}))
 
     if len(query_result) != 0:
-        return_state = {'email': email,
-                        'name': query_result[0]['fname'],
-                        'status': 'student',
+        return_state = {'status': 'student',
                         '_id': str(query_result[0]['_id'])}
 
         return return_state
 
     query_result = list(doe.find({'email': email, 'password': password}))
     if len(query_result) != 0:
-        return_state = {'email': email,
-                        'name': query_result[0]['fname'],
-                        'status': 'doe',
+        return_state = {'status': 'doe',
                         '_id': str(query_result[0]['_id'])}
 
         return return_state
