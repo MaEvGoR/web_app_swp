@@ -69,7 +69,10 @@ export default{
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					surveyName: this.surveyName,
+					year: this.$store.state.year,
+					course_id: this.$store.state.idCourse,
+					user_id: this.$store.state.id,
+					title: this.surveyName,
 					questions: this.questions,
 				}),
 			});
