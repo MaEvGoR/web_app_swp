@@ -48,7 +48,7 @@ def course_from_survey(survey_id):
 
 
 def get_courses(year):
-    query = list(courses.find({'year':year}))
+    query = list(courses.find({'year': year}))
     return [{'name': course['name'], '_id': str(course['_id'])} for course in query]
 
 
@@ -182,6 +182,47 @@ def check_login_password(email, password):
         return return_state
 
     return {'error': 401}
+
+
+def create_new_survey(year, course_id, doe_id, title, n_questions):
+    # year: 17-19
+    # course_id: 123jh1k2j3hkshgrk32
+    # questions: [
+    #     {title: "What you don\'t like about the course?", type: 'text'},
+    #     {title: "Content of the course?", type: 'radio', options: ['Excellent', 'Good', 'Satisfactory', 'Very bad']},
+    # ],
+
+    question_ids = []
+
+    for i in range(len(n_questions)):
+        q_object = {'text': n_questions[i]['title'],
+                    'q_num': i,
+                    'type': n_questions[i]['type']}
+
+        if q_object['type'] == 'radio':
+            q_object['options_flag'] = True
+            q_object['options'] = n_questions[i]['options']
+
+        res_q = questions.insert_one(q_object)
+        question_ids.append(res_q.inserted_id)
+
+    survey_object = {'name': title,
+                     'creation_time': str(datetime.date(datetime.datetime.today().year,
+                                                        datetime.datetime.today().month,
+                                                        datetime.datetime.today().day)),
+                     'expiration_time': str(datetime.date(datetime.datetime.today().year,
+                                                          datetime.datetime.today().month,
+                                                          datetime.datetime.today().day) + datetime.timedelta(days=10)),
+                     'description': fake.text(),
+                     'created_by': doe_id,
+                     'questions': [ObjectId(q_id) for q_id in question_ids]}
+
+    mongo_surv = surveys.insert_one(survey_object)
+
+    courses.update_one({'_id': course_id},
+                       {'$push': {'survey_ids': mongo_surv.inserted_id}})
+
+    return {'response': 200}
 
 # def check_login_password(email, password):
 #     query_result = list(students.find({'email': email, 'password': password}))

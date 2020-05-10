@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     status: '',
     surveyName: '',
+    surveyList: {},
     id: '',
     year: '',
     idCourse: '',
@@ -31,6 +32,17 @@ export default new Vuex.Store({
     changeCourses(state, courses){
       state.courses = courses;
     },
+    changeSurveyList (state, newSurveylist) { 
+      state.surveyList = newSurveylist;
+    },
+  },
+  getters: {
+    getSurveyList: state => {
+      return state.surveyList;
+    },
+    getId: state =>{
+      return state.id;
+    }
   },
   actions: {
   },
