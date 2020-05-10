@@ -107,7 +107,10 @@ export default {
       const res = await fetch(request);
       const data = await res.json();
 	  this.data = data;
-      console.log(data)
+	  console.log(data);
+		this.$store.commit("changeQuestion", data);
+		this.$router.push('/fillsurvey');
+
     }
   }
 }
