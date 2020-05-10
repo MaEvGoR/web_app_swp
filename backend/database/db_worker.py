@@ -219,7 +219,7 @@ def create_new_survey(year, course_id, doe_id, title, n_questions):
 
     mongo_surv = surveys.insert_one(survey_object)
 
-    courses.update_one({'_id': course_id},
+    courses.update_one({'_id': ObjectId(course_id)},
                        {'$push': {'survey_ids': mongo_surv.inserted_id}})
 
     return {'response': 200}
