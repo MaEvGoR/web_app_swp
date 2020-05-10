@@ -258,6 +258,7 @@ def save_answers(user_id, survey_id, course_id, questions_answers):
 
         answers_objects.append(ans_object)
 
+
     for ans_object in answers_objects:
         # update if exists
         # insert if doesn't
