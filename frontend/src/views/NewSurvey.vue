@@ -43,7 +43,6 @@
 </template>
 
 <script>
-
 export default{
 	name: "Survey",
 	data(){
