@@ -10,7 +10,7 @@
       >
         <v-layout row wrap justify-center>
           <h1 class="intro display-4">
-            Good {{getDayPart()}}, Student!
+            Good {{getDayPart()}}, {{data.name}}
           </h1>
           <h2 class="subintro ">Here’re some feedback forms to fill for you</h2>
         <v-card
@@ -20,11 +20,11 @@
           heigth="33%"
           min-height="200"
         >
-          <v-flex xs12 sm6 md4 lg4 v-for="course in courses" :key="course.name">
+          <v-flex xs12 sm6 md4 lg4 v-for="course in data.unfilled_courses" :key="course.name">
             <v-card class="text-center ma-2" color="#241663" @click="clicked">
               <v-card-text>
                 <div class="heading">
-                  {{course.name}}
+                  {{course}}
                 </div>
               </v-card-text>
             </v-card>
@@ -48,7 +48,8 @@ export default {
         {name: 'Probability and Statistics'},
         {name: 'Sport'},
         {name: 'Artificial Intelligence'}
-      ]
+      ],
+      data: {}
     }
   },
   beforeMount(){
