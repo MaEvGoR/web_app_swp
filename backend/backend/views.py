@@ -10,7 +10,7 @@ def login_password_verification(email, password):
 
 
 # we assume that this is Maxim Evgrafov
-current_id = "5e8e662b41e24db0156a0a41"
+current_student_id = "5e8e662b41e24db0156a0a41"
 
 
 @api.route('/student', methods=['GET'])
@@ -19,10 +19,21 @@ def student():
     # Name
     # unfilled surveys names (courses names)
 
-    student_info = db_worker.get_student_info(current_id)
-    student_unfilled_courses = db_worker.get_student_surveys(current_id)
+    student_info = db_worker.get_student_info(current_student_id)
+    student_unfilled_courses = db_worker.get_student_unfilled_courses(current_student_id)
 
-    return {'name': student_info['fname'], 'unfilled_courses': student_unfilled_courses}
+    return jsonify({'name': student_info['fname'], 'unfilled_courses': student_unfilled_courses})
+
+
+@api.route('/student_unfilled', methods=['POST'])
+def student_unfilled():
+    if not request.is_json:
+        abort(400)
+
+    required_course = request.json.get('course')
+    unfilled_surveys = db_worker.get_student_unfilled_surveys(current_student_id, required_course)
+
+    return jsonify({'course': required_course, 'surveys': unfilled_surveys})
 
 
 @api.route('/log_in', methods=['POST'])

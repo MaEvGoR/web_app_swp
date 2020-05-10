@@ -1,7 +1,6 @@
 flask
 redis
 flask_bootstrap
-psycopg2
 pymongo
-dns
+dnspython
 faker

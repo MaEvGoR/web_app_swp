@@ -16,7 +16,7 @@ docker-compose up --build
 ```
 This command create image for this project and starts the application on [http://localhost/](http://localhost/)
 
-### Usefull commands
+### Useful commands
 P.s. If you want to rerun a container in the background, just run
 ```bash
 docker-compose up -d <container-name>

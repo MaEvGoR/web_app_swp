@@ -15,19 +15,109 @@ courses = db['courses']
 doe = db['doe']
 surveys = db['surveys']
 questions = db['questions']
+answers = db['answers']
 
 
 def get_student_info(student_id):
+    # return student document from database
+
     query = list(students.find({'_id': ObjectId(student_id)}))
     return query[0]
 
 
-def get_student_surveys(student_id):
-    return ['C1', 'C2', 'C3']
+def get_survey_info(survey_id):
+    # return survey document from database
+
+    query = list(surveys.find({'_id': ObjectId(survey_id)}))
+    return query[0]
 
 
-# print(get_student_info("5e8e662b41e24db0156a0a41"))
+def course_from_survey(survey_id):
+    # return course where this survey id is
+
+    query = list(courses.find({"survey_ids": survey_id}))
+    return query[0]
+
+
+def get_student_courses(student_id):
+    # return list of courses of student
+
+    student = get_student_info(student_id)
+
+    student_year = int(student['start_year'])
+
+    student_courses = list(courses.find({'year': student_year}))
+    return student_courses
+
+
+def get_student_surveys_ids(student_id):
+    # return ids of ALL surveys of student
+    student_courses = get_student_courses(student_id)
+    student_surveys_ids = []
+
+    for course in student_courses:
+        student_surveys_ids += course['survey_ids']
+
+    return student_surveys_ids
+
+
+def get_question_ids_of_survey(survey_id):
+    # return ids of questions in survey
+
+    survey_info = get_survey_info(survey_id)
+    return survey_info['questions']
+
+
+def num_of_empty_answers(student_id, survey_id):
+    # return number of unanswered questions in specific
+    # survey for specific student
+
+    survey_questions = get_question_ids_of_survey(survey_id)
+    questions_num = len(survey_questions)
+
+    for question in survey_questions:
+        query = list(answers.find({"student_id": ObjectId(student_id),
+                                   "survey_id": survey_id,
+                                   "question_id": question}))
+
+        if len(query) != 0:
+            questions_num -= 1
+
+    return questions_num
+
+
+def get_student_unfilled_courses(student_id):
+    # return info about surveys that are not passed yet
+
+    student_surveys = get_student_surveys_ids(student_id)
+
+    unfilled_surveys_courses = set()
+    for survey_id in student_surveys:
+
+        # todo date checking!!!
+
+        if num_of_empty_answers(student_id, survey_id) != 0:
+            unfilled_surveys_courses.add(course_from_survey(survey_id)['name'])
+
+    return list(unfilled_surveys_courses)
+
+def get_student_unfilled_surveys(student_id, req_course):
+    # return unfilled surveys of the specific course
+
+    student_surveys = get_student_surveys_ids(student_id)
+    unfilled_surveys = []
+    for survey_id in student_surveys:
+
+        # todo date checking!!!
+
+        if num_of_empty_answers(student_id, survey_id) != 0 and course_from_survey(survey_id)['name'] == req_course:
+            unfilled_surveys.append(get_survey_info(survey_id)['name'])
+
+    return unfilled_surveys
+
+# print(get_student_unfilled_surveys("5e8e662b41e24db0156a0a41"))
 # exit(0)
+
 
 def check_login_password(email, password):
     query_result = list(students.find({'email': email, 'password': password}, {"_id": 0, 'password': 0}))
