@@ -9,12 +9,6 @@ services:
       - frontend
     networks:
       - servers
-  postgres:
-    image: postgres:12.1-alpine
-    networks:
-      - postgres_db
-    ports:
-      - "5432:5432"
   backend:
     build:
       context: backend
@@ -23,9 +17,6 @@ services:
       - APP_ENV=dev
     networks:
       - servers
-      - postgres_db
-    depends_on:
-      - postgres
     ports:
       - "5000:5000"
     volumes:
@@ -49,6 +40,4 @@ services:
 
 networks:
   servers:
-    driver: bridge
-  postgres_db:
     driver: bridge

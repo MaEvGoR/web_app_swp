@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 api = Blueprint('api', __name__, url_prefix='/api')
 
 # Until migration to postgres

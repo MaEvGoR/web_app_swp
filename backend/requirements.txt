@@ -1,4 +1,3 @@
 flask
 redis
 flask_bootstrap
-psycopg2
