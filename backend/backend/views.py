@@ -13,6 +13,13 @@ def login_password_verification(email, password):
 current_student_id = "5e8e662b41e24db0156a0a41"
 
 
+@api.after_request
+def allow_cors(response):
+    response.headers['Access-Control-Allow-Origin'] = 'http://0.0.0.0:8080'
+    response.headers['Access-Control-Allow-Headers'] = 'content-type'
+    return response
+
+
 @api.route('/student', methods=['GET'])
 def student():
     # should return
