@@ -63,8 +63,8 @@ export default {
   },
   methods: {
     clicked() {
-      // console.log("clicked");
-      this.$router.push({path:`/template`});
+      console.log("clicked");
+      this.$router.push({path:`/years`});
     },
     getDayPart(){
       const hours = new Date().getHours();

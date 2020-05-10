@@ -5,6 +5,8 @@ import Student from '../views/Student.vue'
 import DOE from '../views/DOE.vue'
 import NewSurvey from '../views/NewSurvey.vue'
 import Survey from '../views/Survey.vue'
+import Years from '../views/Years.vue'
+import Courses from '../views/Courses.vue'
 
 Vue.use(VueRouter)
 
@@ -33,7 +35,17 @@ const routes = [
     path: '/survey',
     name: 'Survey',
     component: Survey
-  }
+  },
+  {
+    path: '/years',
+    name: 'Years',
+    component: Years
+  },
+  {
+    path: '/courses',
+    name: 'Courses',
+    component: Courses
+  },
 ]
 
 const router = new VueRouter({
