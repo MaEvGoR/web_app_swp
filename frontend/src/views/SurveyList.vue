@@ -22,7 +22,7 @@
           min-height="200"
         >
          <v-flex xs12 sm6 md4 lg4 v-for="course in data.surveys" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="survey(course)">
+            <v-card class="text-center ma-2" color="#241663" @click="survey(course.name, course._id)">
               <v-card-text>
                 <div class="heading">
                   {{course.name}}
@@ -63,12 +63,12 @@ export default {
     },
   methods: {
     async test(){
-      console.log(1111);
+    //   console.log(1111);
       // console.log(this.$store.getters.getSurveyList)
       const tempd = this.$store.getters.getSurveyList;
       // console.log(data);
       this.data = tempd
-      console.log(this.data)
+    //   console.log(this.data)
     },
     getDayPart(){
       const hours = new Date().getHours();
@@ -82,11 +82,18 @@ export default {
         return 'night';
       }
     },
-    async survey() {      
-      console.log(this.mess);
-      console.log(JSON.stringify(this.mess));
+    async survey(coursename, courseid) {     
+	//   console.log(JSON.stringify(this.mess));
+		const userid = this.$store.state.id;
+      const message = {
+		  	"survey_name": coursename,
+		  	"survey_id": courseid,
+			"_id": userid,
+			};
+		// console.log(message);
+		this.mess = message;
       const request = new Request(
-        "http://0.0.0.0:5000/api/student_unfilled",
+        "/api/survey",
         {
           method: "POST",
           headers: {
@@ -99,7 +106,7 @@ export default {
       );
       const res = await fetch(request);
       const data = await res.json();
-      this.data = data;
+	  this.data = data;
       console.log(data)
     }
   }
