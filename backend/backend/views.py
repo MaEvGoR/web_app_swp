@@ -35,7 +35,7 @@ def student_page():
 	student_info = db_worker.get_student_info(user_id)
 	student_unfilled_courses = db_worker.get_student_unfilled_courses(user_id)
 
-	return jsonify({'name': student_info['fname'], 'courses': [{'name': course} for course in student_unfilled_courses]})
+	return jsonify({'courses': [{'name': course} for course in student_unfilled_courses]})
 
 @api.route('/new_survey', methods=['POST'])
 def new_survey():

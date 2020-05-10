@@ -9,10 +9,10 @@ export default new Vuex.Store({
     surveyName: '',
   },
   mutations: {
-    changeStatus (state, newStatus) { 
+    changeStatus (state, newStatus) {
       state.status = newStatus;
     },
-    changeSurveyName (state, newName) { 
+    changeSurveyName (state, newName) {
       state.surveyName = newName;
     },
   },
