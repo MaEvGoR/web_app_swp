@@ -48,7 +48,7 @@ def course_from_survey(survey_id):
 
 
 def get_courses(year):
-    query = list(courses.find({'year':year}))
+    query = list(courses.find({'year': year}))
     return [{'name': course['name'], '_id': str(course['_id'])} for course in query]
 
 
@@ -182,6 +182,18 @@ def check_login_password(email, password):
         return return_state
 
     return {'error': 401}
+
+def create_new_survey(year, course_id, questions):
+    # year: 17-19
+    # course_id: 123jh1k2j3hkshgrk32
+    # questions: [
+    #     {title: "What you don\'t like about the course?", type: 'text'},
+    #     {title: "Content of the course?", type: 'radio', options: ['Excellent', 'Good', 'Satisfactory', 'Very bad']},
+    # ],
+
+    return {'response': 200}
+
+
 
 # def check_login_password(email, password):
 #     query_result = list(students.find({'email': email, 'password': password}))
