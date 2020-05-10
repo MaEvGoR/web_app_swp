@@ -327,16 +327,19 @@ def get_results(survey_id):
                                   'options': question_result_obj['options'] if question_result_obj[
                                                                                    'type'] == 'radio' else None,
                                   'answers': [] if question_result_obj['type'] != 'radio' else {}}
+        if return_question_object['options_flag']:
+            for elem in return_question_object['options']:
+                return_question_object['answers'][elem] = 0
 
         answers_objects = list(answers.find({'question_id': ObjectId(return_question_object['question_id'])}))
 
         for ans_obj in answers_objects:
             if return_question_object['options_flag']:
                 # count
-                if ans_obj['answer'] in return_question_object['answers'].keys():
-                    return_question_object['answers'][ans_obj['answer']] += 1
-                else:
-                    return_question_object['answers'][ans_obj['answer']] = 1
+
+                return_question_object['answers'][return_question_object['options'][int(ans_obj['answer'])]] += 1
+
+
             else:
                 # just add
                 return_question_object['answers'].append({'answer': ans_obj['answer']})
