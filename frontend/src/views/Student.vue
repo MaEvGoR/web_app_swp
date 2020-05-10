@@ -9,10 +9,12 @@
         class="my-5"
       >
         <v-layout row wrap justify-center>
-          <h1 class="intro display-4">
+            <h1 class="intro display-4">
             Good {{getDayPart()}}, Student!
-          </h1>
-          <h2 class="subintro ">Here’re some feedback forms to fill for you</h2>
+            </h1>
+            <h2 class="subintro">Here’re some feedback forms to fill for you</h2>
+            
+            
         <v-card
           class="d-flex align-content-center flex-wrap transparent"
           flat
@@ -20,6 +22,18 @@
           heigth="33%"
           min-height="200"
         >
+          
+          <v-flex v-if="loading" xs12 sm12 md12 lg12>
+            <v-card class="text-center ma-2 elevation-0" style="background-color: transparent">
+              <v-progress-circular
+                :size="70"
+                :width="6"
+                color="#241663"
+                indeterminate
+              ></v-progress-circular>
+            </v-card>
+          </v-flex>
+            
           <v-flex xs12 sm6 md4 lg4 v-for="course in data.courses" :key="course.name">
             <v-card class="text-center ma-2" color="#241663" @click="clicked(course.name)">
               <v-card-text>
@@ -41,48 +55,30 @@ export default {
   data(){
     return {
       message: '',
-      courses: [
-        {name: 'Software Project'},
-        {name: 'Control Theory'},
-        {name: 'Networks'},
-        {name: 'Probability and Statistics'},
-        {name: 'Sport'},
-        {name: 'Artificial Intelligence'}
-      ], 
+      loading: true,
       data: {}, //for fetch courses
       mess: {}
     }
   },
-  beforeMount(){
-    this.getName();
+  mounted: function(){
+    this.getCourses(this);
   },
   methods: {
-    async getName(){
-      // console.log(1)
-      const strr = this.$store.state.id
-      
-      this.mess = {"_id": strr};
-      // console.log(this.mess);
-      const request = new Request( "/api/student_page",
+    async getCourses(vm){
+      const response = await fetch("/api/student_page",
         {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
           cache: "default",
-          body: JSON.stringify(this.mess)
+          body: JSON.stringify({
+            _id: vm.$store.state.id,
+          }),
         }
       );
-      const res = await fetch(request);
-      // console.log(555)
-      const data = await res.json();
-      this.data = data;
-      // console.log(this.data)
-
-
-      // const res = await fetch('http://0.0.0.0:5000/api/student');
-      // const data = await res.json();
-      // this.data = data;
+      vm.data = await response.json();
+      vm.loading = false;
     },
     async clicked(coursur) {
       // console.log(5);
@@ -94,8 +90,7 @@ export default {
       this.mess = message;
       // console.log(this.mess)
       //coursur это course surveys
-      const request = new Request(
-        "/api/surveys_page",
+      const request = await fetch("/api/surveys_page",
         {
           method: "POST",
           headers: {
@@ -105,9 +100,8 @@ export default {
           body: JSON.stringify(this.mess)
         }
       );
-      const res = await fetch(request);
       // console.log(2);
-      const data = await res.json();
+      const data = await request.json();
       this.data = data;
       // console.log(this.data)
 
@@ -156,7 +150,11 @@ export default {
     text-align: center;
     font-weight: 100;
     color: #000000;
-    margin-bottom: 5%;
+    /* margin-bottom: 5%; */
+  }
+
+  .center{
+    width:100%
   }
 
   .heading{
