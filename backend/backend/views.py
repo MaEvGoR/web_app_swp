@@ -33,7 +33,7 @@ def student_page():
     user_id = request.json.get('_id')
     student_unfilled_courses = db_worker.get_student_unfilled_courses(user_id)
 
-    return jsonify({'courses': [{'name': course} for course in student_unfilled_courses]})
+    return jsonify({'courses': [{'name': course['name'], 'course_id': course['_id']} for course in student_unfilled_courses]})
 
 
 @api.route('/surveys_page', methods=['POST'])
@@ -105,3 +105,16 @@ def submit_survey():
     res = db_worker.save_answers(user_id, survey_id, course_id, questions)
 
     return jsonify(res)
+
+
+@api.route('/get_results', methods=['POST'])
+def get_results():
+    if not request.is_json:
+        abort(400)
+
+    survey_id = request.json.get('survey_id')
+
+    res = db_worker.get_results(survey_id)
+
+    return jsonify(res)
+

@@ -119,7 +119,7 @@ def get_student_unfilled_courses(student_id):
         # todo date checking!!!
 
         if num_of_empty_answers(student_id, survey_id) != 0:
-            unfilled_surveys_courses.add(course_from_survey(survey_id)['name'])
+            unfilled_surveys_courses.add(course_from_survey(survey_id))
 
     return list(unfilled_surveys_courses)
 
@@ -224,6 +224,7 @@ def create_new_survey(year, course_id, doe_id, title, n_questions):
 
     return {'response': 200}
 
+
 def save_answers(user_id, survey_id, course_id, questions_answers):
     # {'user_id': '7bsd7fg7b3eybdv834',
     #      'survey_id': 'hsfdb82uejdvu9b29',
@@ -246,7 +247,7 @@ def save_answers(user_id, survey_id, course_id, questions_answers):
                       'course_id': ObjectId(course_id),
                       'survey_id': ObjectId(survey_id),
                       'question_id': ObjectId(raw_ans['question_id']),
-                      'answer': raw_ans['answer']}
+                      'answer': raw_ans['title']}
 
         answers_objects.append(ans_object)
 
@@ -263,6 +264,64 @@ def save_answers(user_id, survey_id, course_id, questions_answers):
 
     return {'response': 200}
 
+
+def get_results(survey_id):
+    ## EXAMPLE OF RETURNED OBJECT
+
+    # return_obj = {'_id': ObjectId(survey_id),
+    #               'name': "Survey Name",
+    #               'creation_time': "2020-05-07",
+    #               'expiration_time': "2020-05-17",
+    #               'description': 'Survey Description',
+    #               'created_by': 'Creator id',
+    #               'results': [
+    #                   {'question_id': ObjectId('Question1_id'),
+    #                    'text': 'Question1 text',
+    #                    'q_num': 'Question1 number',
+    #                    'type': 'Question1 type (text ot radio)',
+    #                    'answers': [{'answer': 'ans1'},
+    #                                {'answer': 'ans2'},
+    #                                {'answer': 'ans3'}
+    #                                ]},
+    #                   {'question_id': ObjectId('Question2_id'),
+    #                    'text': 'Question2 text',
+    #                    'q_num': 'Question2 number',
+    #                    'type': 'Question2 type (text ot radio)',
+    #                    'answers': [{'answer': 'ans1'},
+    #                                {'answer': 'ans2'},
+    #                                {'answer': 'ans3'}
+    #                                ]}
+    #               ]}
+
+    try:
+        survey_object = list(surveys.find({'_id': ObjectId(survey_id)}))[0]
+    except:
+        raise Exception('There is no such ({}) survey'.format(survey_id))
+
+    return_obj = {'_id': survey_id,
+                  'name': survey_object['name'],
+                  'creation_time': survey_object['creation_time'],
+                  'expiration_time': survey_object['expiration_time'],
+                  'description': survey_object['description'],
+                  'created_by': survey_object['created_by'],
+                  'results': []}
+
+    for question_obj_id in survey_object['questions']:
+        question_result_obj = list(questions.find({'_id': question_obj_id}))[0]
+
+        return_question_object = {'question_id': question_result_obj['_id'],
+                                  'text': question_result_obj['text'],
+                                  'q_num': question_result_obj['q_num'],
+                                  'type': question_result_obj['type'],
+                                  'options_flag': True if question_result_obj['type'] == 'radio' else False,
+                                  'options': question_result_obj['options'] if question_result_obj['type'] == 'radio' else None,
+                                  'answers': []}
+
+        
+
+
+
+        question_answers = list(answers.find({'_id'}))
 
 # def check_login_password(email, password):
 #     query_result = list(students.find({'email': email, 'password': password}))
