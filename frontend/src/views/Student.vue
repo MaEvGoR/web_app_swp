@@ -21,7 +21,7 @@
           min-height="200"
         >
           <v-flex xs12 sm6 md4 lg4 v-for="course in data.courses" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="clicked(course)">
+            <v-card class="text-center ma-2" color="#241663" @click="clicked(course.name)">
               <v-card-text>
                 <div class="heading">
                   {{course.name}}
@@ -58,10 +58,11 @@ export default {
   },
   methods: {
     async getName(){
-      // const strr = this.$store.commit("changeId", this.user._id);
-      // const strr = '5e8e662b41e24db0156a0a41';
-      this.mess = {"_id": '5e8e662b41e24db0156a0a41'};
-      console.log(this.mess);
+      // console.log(1)
+      const strr = this.$store.state.id
+      
+      this.mess = {"_id": strr};
+      // console.log(this.mess);
       const request = new Request( "/api/student_page",
         {
           method: "POST",
@@ -85,10 +86,16 @@ export default {
     },
     async clicked(coursur) {
       console.log(5);
+      const strr = this.$store.state.id
+      const message = {
+          "_id": strr,
+          "course": coursur
+          };
+      this.mess = message;
+      console.log(this.mess)
       //coursur это course surveys
-      this.mess = {'course':coursur};
       const request = new Request(
-        "/api/student_unfilled",
+        "/api/surveys_page",
         {
           method: "POST",
           headers: {
@@ -99,6 +106,7 @@ export default {
         }
       );
       const res = await fetch(request);
+      console.log(2);
       const data = await res.json();
       this.data = data;
 

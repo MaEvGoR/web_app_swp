@@ -19,15 +19,18 @@ export default new Vuex.Store({
     },
     changeId(state, id){
       state.id = id;
-    }
+    },
+    changeSurveyList (state, newSurveylist) { 
+      state.surveyList = newSurveylist;
+    },
   },
   getters: {
     getSurveyList: state => {
       return state.surveyList;
     },
-    changeSurveyList (state, newSurveylist) { 
-      state.surveyList = newSurveylist;
-    },
+    getId: state =>{
+      return state.id;
+    }
   },
   actions: {
   },
