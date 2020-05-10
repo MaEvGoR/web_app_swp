@@ -97,7 +97,7 @@ def submit_survey():
     if not request.is_json:
         abort(400)
 
-    user_id = request.json.get('_id')
+    user_id = request.json.get('user_id')
     survey_id = request.json.get('survey_id')
     course_id = request.json.get('course_id')
     questions = request.json.get('answers')
