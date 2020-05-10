@@ -46,6 +46,9 @@ def course_from_survey(survey_id):
     query = list(courses.find({"survey_ids": survey_id}))
     return query[0]
 
+def get_all_courses():
+    query = list(courses.find({}))
+    return [{'name':course['name'], '_id':str(course['_id'])} for course in query]
 
 def get_student_courses(student_id):
     # return list of courses of student
