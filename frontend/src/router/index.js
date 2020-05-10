@@ -5,7 +5,7 @@ import Student from '../views/Student.vue'
 import DOE from '../views/DOE.vue'
 import NewSurvey from '../views/NewSurvey.vue'
 import Survey from '../views/Survey.vue'
-
+import SurveyList from '../views/SurveyList.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -33,6 +33,11 @@ const routes = [
     path: '/survey',
     name: 'Survey',
     component: Survey
+  },
+  {
+    path: '/surveylist',
+    name: '/SurveyList',
+    component: SurveyList
   }
 ]
 
