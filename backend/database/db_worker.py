@@ -111,7 +111,8 @@ def get_student_unfilled_surveys(student_id, req_course):
         # todo date checking!!!
 
         if num_of_empty_answers(student_id, survey_id) != 0 and course_from_survey(survey_id)['name'] == req_course:
-            unfilled_surveys.append(get_survey_info(survey_id)['name'])
+            unfilled_surveys.append({'name': get_survey_info(survey_id)['name'],
+                                     '_id': str(survey_id)})
 
     return unfilled_surveys
 
