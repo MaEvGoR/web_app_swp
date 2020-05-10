@@ -21,7 +21,7 @@
           min-height="200"
         >
           <v-flex xs12 sm6 md4 lg4 v-for="course in data.unfilled_courses" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="survey(course)">
+            <v-card class="text-center ma-2" color="#241663" @click="survey">
               <v-card-text>
                 <div class="heading">
                   {{course}}
@@ -51,23 +51,22 @@ export default {
       ],
       data: {},
       // mess: {'course':'Software Project'}
-      // mess: {course: 'Control Theory'}
-      mess: {}
+      mess: {course: 'Control Theory'}
     }
   },
-  beforeMount(){
-    this.getName();
-  },
+  // beforeMount(){
+  //   this.getName();
+  // },
   methods: {
-    async getName(){
-      const res = await fetch('http://0.0.0.0:5000/api/student');
-      const data = await res.json();
-      this.data = data;
-      console.log(data);
-    },
-    clicked() {
-      console.log("clicked");
-    },
+    // async getName(){
+    //   const res = await fetch('http://0.0.0.0:5000/api/student_unfilled');
+    //   const data = await res.json();
+    //   this.data = data;
+    //   console.log(data);
+    // },
+    // clicked() {
+    //   console.log("clicked");
+    // },
     getDayPart(){
       const hours = new Date().getHours();
       if(4 < hours && hours < 12){
@@ -80,28 +79,26 @@ export default {
         return 'night';
       }
     },
-    async survey(coursur) { 
-      // console.log(coursur);
-      this.mess = {'course':coursur};
-      console.log(JSON.stringify(this.mess));
-      const request = new Request(
-        "http://0.0.0.0:5000/api/student_unfilled",
-        {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          // mode: "cors",
-          cache: "default",
-          body: JSON.stringify(this.mess)
-        }
-      );
-      this.$router.push('/surveylist');
-      const res = await fetch(request);
-      const data = await res.json();
-      this.data = data;
-      console.log(data)
-    }
+    // async survey() {      
+    //   console.log(this.mess);
+    //   console.log(JSON.stringify(this.mess));
+    //   const request = new Request(
+    //     "http://0.0.0.0:5000/api/student_unfilled",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       // mode: "cors",
+    //       cache: "default",
+    //       body: JSON.stringify(this.mess)
+    //     }
+    //   );
+    //   const res = await fetch(request);
+    //   const data = await res.json();
+    //   this.data = data;
+    //   console.log(data)
+    // }
   }
 }
 </script>
