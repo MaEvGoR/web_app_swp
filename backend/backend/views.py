@@ -37,6 +37,11 @@ def student_page():
 	return jsonify({'courses': [{'name': course} for course in student_unfilled_courses]})
 
 
+@api.route('/bs_years', methods=['GET'])
+def get_years():
+	return jsonify(db_worker.get_all_years())
+
+
 @api.route('/courses', methods=['GET'])
 def get_courses():
 	return jsonify(db_worker.get_all_courses())
