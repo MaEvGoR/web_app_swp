@@ -29,7 +29,7 @@ def student():
     student_info = db_worker.get_student_info(current_student_id)
     student_unfilled_courses = db_worker.get_student_unfilled_courses(current_student_id)
 
-    return jsonify({'name': student_info['fname'], 'unfilled_courses': [{'name': course} for course in student_unfilled_courses]})
+    return jsonify({'name': student_info['fname'], 'unfilled_courses': student_unfilled_courses})
 
 
 @api.route('/student_unfilled', methods=['POST'])
