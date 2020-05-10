@@ -32,6 +32,14 @@ def get_survey_info(survey_id):
     return query[0]
 
 
+def get_question_info(question_id):
+    query = list(questions.find({'_id': question_id}))
+
+    changed = query[0]
+    changed['_id'] = str(changed['_id'])
+    return changed
+
+
 def course_from_survey(survey_id):
     # return course where this survey id is
 
@@ -101,6 +109,7 @@ def get_student_unfilled_courses(student_id):
 
     return list(unfilled_surveys_courses)
 
+
 def get_student_unfilled_surveys(student_id, req_course):
     # return unfilled surveys of the specific course
 
@@ -111,9 +120,33 @@ def get_student_unfilled_surveys(student_id, req_course):
         # todo date checking!!!
 
         if num_of_empty_answers(student_id, survey_id) != 0 and course_from_survey(survey_id)['name'] == req_course:
-            unfilled_surveys.append(get_survey_info(survey_id)['name'])
+            unfilled_surveys.append({'name': get_survey_info(survey_id)['name'],
+                                     '_id': str(survey_id)})
 
     return unfilled_surveys
+
+
+def get_unfilled_questions(student_id, survey_id):
+    # return info about questions
+
+    survey_questions = get_question_ids_of_survey(survey_id)
+
+    questions = []
+
+    for question in survey_questions:
+        query = list(answers.find({"student_id": ObjectId(student_id),
+                                   "survey_id": ObjectId(survey_id),
+                                   "question_id": question}))
+
+        if len(query) == 0:
+            questions.append(get_question_info(question))
+
+    return questions
+
+
+# print(get_unfilled_questions("5e8e662b41e24db0156a0a41", "5eb71774703d82a2afce21e8"))
+# exit(0)
+
 
 # print(get_student_unfilled_surveys("5e8e662b41e24db0156a0a41"))
 # exit(0)
