@@ -87,7 +87,7 @@ export default{
 				"user_id": this.$store.state.id,
 				"survey_id": this.survey_idtemp,
 				"course_id": this.$store.state.courseid,
-				"questions": this.data.questions
+				"answers": this.data.questions
 			};
 			console.log(temp)
 			this.otvet = temp;
