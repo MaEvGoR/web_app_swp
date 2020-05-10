@@ -77,6 +77,16 @@ export default {
           }),
         }
       );
+      const res = await fetch(request);
+      // console.log(555)
+      const data = await res.json();
+      this.data = data;
+      console.log(this.data)
+
+
+      // const res = await fetch('http://0.0.0.0:5000/api/student');
+      // const data = await res.json();
+      // this.data = data;
       vm.data = await response.json();
       vm.loading = false;
     },
@@ -104,7 +114,7 @@ export default {
       const data = await request.json();
       this.data = data;
       // console.log(this.data)
-
+     console.log(data);
       this.$store.commit("changeSurveyList", data);
       this.$router.push('/surveylist');
       

@@ -8,7 +8,7 @@ import Survey from '../views/Survey.vue'
 import Years from '../views/Years.vue'
 import Courses from '../views/Courses.vue'
 import SurveyList from '../views/SurveyList.vue'
-
+import Fillsurvey from '../views/Fillsurvey.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -53,6 +53,11 @@ const routes = [
     name: '/SurveyList',
     component: SurveyList
   },
+  {
+    path: '/fillsurvey',
+    name: 'Fillsurvey',
+    component: Fillsurvey
+  }
 ]
 
 const router = new VueRouter({

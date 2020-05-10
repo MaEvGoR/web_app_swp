@@ -12,6 +12,7 @@ export default new Vuex.Store({
     year: '',
     idCourse: '',
     courses: [],
+    questoins: {},
   },
   mutations: {
     changeStatus (state, newStatus) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     changeSurveyList (state, newSurveylist) { 
       state.surveyList = newSurveylist;
+    },
+    changeQuestion (state, newQuestion) { 
+      state.questions = newQuestion;
     },
   },
   getters: {
