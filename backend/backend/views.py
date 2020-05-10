@@ -78,6 +78,20 @@ def new_survey():
     return jsonify(res)
 
 
+@api.route('/survey', methods=['POST'])
+def get_survey():
+    if not request.is_json:
+        abort(400)
+
+    survey_name = request.json.get('survey_name')
+    survey_id = request.json.get('survey_id')
+    user_id = request.json.get('_id')
+
+    not_passed_questions = db_worker.get_unfilled_questions(user_id, survey_id)
+
+    return jsonify({"survey_id": survey_id, "name": survey_name, "questions": not_passed_questions})
+
+
 @api.route('/submit_survey', methods=['POST'])
 def submit_survey():
     if not request.is_json:
