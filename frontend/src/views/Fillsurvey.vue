@@ -69,7 +69,8 @@ export default{
 				{title: "Answer", type: 'radio'},
 				{title: "Answer", type: 'radio'},
 			],
-			otvet: [],
+			otvet: {},
+			survey_idtemp: '',
 		}
 	},
 	beforeMount(){
@@ -78,31 +79,31 @@ export default{
 	methods:{
 		async test(){
 			this.data = this.$store.state.questions;
-			// console.log(this.data)
+			console.log(this.data);
+			this.survey_idtemp = this.data.survey_id;
 		},
 		async createSurvey(){
-			const mess = {"questoins":this.data.questions};
 			const temp = {
-				"userid_id": this.$store.state.id,
-				"survey_id": "sdf"
+				"user_id": this.$store.state.id,
+				"survey_id": this.survey_idtemp,
+				"course_id": this.$store.state.courseid,
+				"questions": this.data.questions
 			};
-			// console.log(mess);
-			// const response = await fetch('/api/new_survey', {
-			// 	method: 'POST',
-			// 	headers: {
-			// 		'Content-Type': 'application/json',
-			// 	},
-			// 	body: JSON.stringify({
-			// 		year: this.$store.state.year,
-			// 		course_id: this.$store.state.idCourse,
-			// 		user_id: this.$store.state.id,
-			// 		title: this.surveyName,
-			// 		questions: this.questions,
-			// 	}),
-			// });
+			console.log(temp)
+			this.otvet = temp;
+			const request = await fetch("/api/submit_survey",
+				{
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				cache: "default",
+				body: JSON.stringify(this.otvet)
+				}
+			);
 			// if(!response.ok) return;
 			// const json = await response.json();
-			// this.$router.push({path:`/${this.$store.state.status}`});
+			this.$router.push('/student')
 		}
 	}
 }

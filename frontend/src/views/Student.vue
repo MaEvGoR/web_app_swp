@@ -35,7 +35,7 @@
           </v-flex>
             
           <v-flex xs12 sm6 md4 lg4 v-for="course in data.courses" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="clicked(course.name)">
+            <v-card class="text-center ma-2" color="#241663" @click="clicked(course)">
               <v-card-text>
                 <div class="heading">
                   {{course.name}}
@@ -77,11 +77,6 @@ export default {
           }),
         }
       );
-      const res = await fetch(request);
-      // console.log(555)
-      const data = await res.json();
-      this.data = data;
-      console.log(this.data)
 
 
       // const res = await fetch('http://0.0.0.0:5000/api/student');
@@ -89,13 +84,14 @@ export default {
       // this.data = data;
       vm.data = await response.json();
       vm.loading = false;
+      // console.log(this.data);
     },
     async clicked(coursur) {
-      // console.log(5);
+      // console.log(coursur.course_id);
       const strr = this.$store.state.id
       const message = {
           "_id": strr,
-          "course": coursur
+          "course": coursur.name
           };
       this.mess = message;
       // console.log(this.mess)
@@ -114,8 +110,9 @@ export default {
       const data = await request.json();
       this.data = data;
       // console.log(this.data)
-     console.log(data);
+    //  console.log(data);
       this.$store.commit("changeSurveyList", data);
+      this.$store.commit("changeCourseid", coursur.course_id);
       this.$router.push('/surveylist');
       
       
