@@ -25,6 +25,18 @@ def log_in():
 
 	return jsonify(res)
 
+
+@api.route('/student_page', methods=['POST'])
+def student_page():
+	if not request.is_json:
+		abort(400)
+
+	user_id = request.json.get('_id')
+	student_info = db_worker.get_student_info(user_id)
+	student_unfilled_courses = db_worker.get_student_unfilled_courses(user_id)
+
+	return jsonify({'name': student_info['fname'], 'courses': [{'name': course} for course in student_unfilled_courses]})
+
 @api.route('/new_survey', methods=['POST'])
 def new_survey():
 	if not request.is_json:
