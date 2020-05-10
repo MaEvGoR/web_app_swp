@@ -3,26 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d963ed57-973e-4ce6-9902-45350574ad29" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/backend/be_worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/be_worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/backend/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/backend/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Answer.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/Answer.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/AnswerOption.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/AnswerOption.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Course.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/Course.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/DOEmember.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/DOEmember.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/DatabaseSchema.PNG" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/DatabaseSchema.PNG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/FilledSurvey.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/FilledSurvey.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Queries/Return name of notfilled surveys by user ID.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/Queries/Return name of notfilled surveys by user ID.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Question.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/Question.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Student.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/Student.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/Survey.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/Survey.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/SystemUser.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/SystemUser.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/TA.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/TA.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/UserFillInSurvey.dat" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/UserFillInSurvey.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/db_worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/db_worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/restore.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/restore.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/restoreWithInsertedData.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/restoreWithInsertedData.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login.vue" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

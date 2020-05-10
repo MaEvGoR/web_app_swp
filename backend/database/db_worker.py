@@ -166,7 +166,7 @@ def check_login_password(email, password):
     if len(query_result) != 0:
         return_state = {'email': email,
                         'name': query_result[0]['fname'],
-                        'status': 'student',
+                        'status': 'doe',
                         '_id': str(query_result[0]['_id'])}
 
         return return_state
