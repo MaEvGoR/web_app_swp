@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Student from '../views/Student.vue'
 import DOE from '../views/DOE.vue'
-
+import SurveyList from '../views/SurveyList.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -21,6 +21,11 @@ const routes = [
     path: '/doe',
     name: 'DOE',
     component: DOE
+  },
+  {
+    path: '/surveylist',
+    name: 'SurveyList',
+    component: SurveyList
   }
 ]
 

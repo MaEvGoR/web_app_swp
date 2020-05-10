@@ -63,7 +63,7 @@ export default {
       const res = await fetch('http://0.0.0.0:5000/api/student');
       const data = await res.json();
       this.data = data;
-      console.log(data);
+      // console.log(data);
     },
     clicked() {
       console.log("clicked");
@@ -83,7 +83,7 @@ export default {
     async survey(coursur) { 
       // console.log(coursur);
       this.mess = {'course':coursur};
-      console.log(JSON.stringify(this.mess));
+      // console.log(JSON.stringify(this.mess));
       const request = new Request(
         "http://0.0.0.0:5000/api/student_unfilled",
         {
@@ -96,11 +96,15 @@ export default {
           body: JSON.stringify(this.mess)
         }
       );
-      this.$router.push('/surveylist');
       const res = await fetch(request);
       const data = await res.json();
       this.data = data;
-      console.log(data)
+
+      this.$store.commit("changeSurveyList", data);
+      // console.log(this.$store.getters.getSurveyList)
+      // console.log(data)
+      this.$router.push('/surveylist');
+
     }
   }
 }
