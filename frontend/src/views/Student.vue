@@ -51,7 +51,16 @@ export default {
       ]
     }
   },
+  beforeMount(){
+    this.getName();
+  },
   methods: {
+    async getName(){
+      const res = await fetch('http://0.0.0.0:5000/api/student');
+      const data = await res.json();
+      this.data = data;
+      console.log(data);
+    },
     clicked() {
       console.log("clicked");
     },
