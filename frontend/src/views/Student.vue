@@ -85,14 +85,14 @@ export default {
       // this.data = data;
     },
     async clicked(coursur) {
-      console.log(5);
+      // console.log(5);
       const strr = this.$store.state.id
       const message = {
           "_id": strr,
           "course": coursur
           };
       this.mess = message;
-      console.log(this.mess)
+      // console.log(this.mess)
       //coursur это course surveys
       const request = new Request(
         "/api/surveys_page",
@@ -106,9 +106,10 @@ export default {
         }
       );
       const res = await fetch(request);
-      console.log(2);
+      // console.log(2);
       const data = await res.json();
       this.data = data;
+      // console.log(this.data)
 
       this.$store.commit("changeSurveyList", data);
       this.$router.push('/surveylist');
