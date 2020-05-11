@@ -1,12 +1,7 @@
 <template>
 	<v-app>
-		<v-img
-      src="@/assets/backgroundv2.png" 
-      class="background"
-      height = 100%
-    >
 		<v-container
-			backgound-color="white"
+			style="background: #eae7af;"
 			fluid
 			fill-height
 		>
@@ -18,6 +13,17 @@
 					offset-xs1
 				>
 					<div style="background-color:white" class="pa-3" center outlined>
+            <div v-if="loading" class="text-center">
+              <div>
+              <v-progress-circular
+                :size="70"
+                :width="6"
+                color="#241663"
+                indeterminate
+              ></v-progress-circular>
+              </div>
+              <div class="pa-3">Results are loading</div>
+            </div>
             <div class="text-center"><h1>{{courseName}}</h1></div>
             <div class="text-center"><h3>{{surveyName}}</h3></div>
             <div class="text-center">{{surveyDescription}}</div>
@@ -43,12 +49,12 @@
             </div>
 					</div>
 					<div class="text-center pa-2">
-						<v-btn @click="returnToHome">Return to Home Page</v-btn>
+            <v-btn @click="returnToSurveys" class="ma-2">Return</v-btn>
+						<v-btn @click="returnToHome" class="ma-2">Return to Home Page</v-btn>
 					</div>
 				</v-flex>
 			</v-layout>
 		</v-container>
-		</v-img>
 	</v-app>
 </template>
 
@@ -57,10 +63,11 @@ export default{
 	name: "Survey",
 	data(){
 		return{
-      courseName: 'Some Course',
-      surveyName: 'Name of Survey',
-      surveyDescription: 'Description',
+      courseName: '',
+      surveyName: '',
+      surveyDescription: '',
       results: [],
+      loading: true,
 		}
   },
   mounted: function(){
@@ -83,6 +90,10 @@ export default{
       vm.surveyName = json.name;
       vm.surveyDescription = json.description;
       vm.results = json.results;
+      vm.loading = false;
+    },
+    returnToSurveys(){
+      this.$router.push({path:`/results`});
     },
 		returnToHome(){
       this.$router.push({path:`/${this.$store.state.status}`});
