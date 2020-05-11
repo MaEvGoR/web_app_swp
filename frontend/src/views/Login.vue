@@ -60,6 +60,11 @@
         user: null
       };
     },
+    created: function(){
+      if(this.$store.state.id === ''){
+        this.$router.push({path:`/`});
+      }
+    },
     methods: {
       async login() {
         const response = await fetch('/api/log_in', {

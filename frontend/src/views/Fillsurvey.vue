@@ -71,10 +71,15 @@ export default{
 			otvet: {},
 			survey_idtemp: '',
 		}
-	},
+  },
+  created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
 	beforeMount(){
       this.test();
-    },
+  },
 	methods:{
 		async test(){
 			this.data = this.$store.state.questions;

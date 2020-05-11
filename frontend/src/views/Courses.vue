@@ -51,6 +51,11 @@ export default {
       loading: true,
     }
   },
+  created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
   mounted: function(){
       this.getCourses(this);
   },

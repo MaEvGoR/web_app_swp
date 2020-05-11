@@ -59,7 +59,12 @@ export default{
 				{title: "Clearness of learning?", type: 'radio', options: ['Excellent', 'Good', 'Satisfactory', 'Very bad']},
 			],
 		}
-	},
+  },
+  created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
 	methods:{
 		async createSurvey(){
 			const response = await fetch('/api/new_survey', {

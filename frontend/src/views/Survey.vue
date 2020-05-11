@@ -61,6 +61,11 @@ export default{
 			],
 		}
 	},
+	created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
 	methods:{
 		async submit(){
 			const response = await fetch('/api/submit_survey', {

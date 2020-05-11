@@ -61,6 +61,11 @@ export default {
       message: '',
     }
   },
+  created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
   methods: {
     clicked(button) {
       this.$store.commit("changeButton", button);

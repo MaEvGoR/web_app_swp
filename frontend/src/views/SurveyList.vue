@@ -11,9 +11,8 @@
         <v-layout row wrap justify-center>
           <h1 class="intro display-4">
             <!-- Good {{getDayPart()}}, {{data.name}} -->
-            Your surveys 
+            Surveys for you:
           </h1>
-          <h2 class="subintro ">Here’re some feedback forms to fill for you</h2>
         <v-card
           class="d-flex align-content-center flex-wrap transparent"
           flat
@@ -53,12 +52,14 @@ export default {
       data: {},
     }
   },
-  // beforeMount(){
-  //   this.getName();
-  // },
-    beforeMount(){
+  created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
+  beforeMount(){
       this.test();
-    },
+  },
   methods: {
     async test(){
     //   console.log(1111);
