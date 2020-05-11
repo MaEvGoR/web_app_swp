@@ -9,10 +9,12 @@
         class="my-5"
       >
         <v-layout row wrap justify-center>
-          <h1 class="intro display-4">
+          <v-card class="d-flex align-content-center flex-wrap transparent" flat>
+            <h1 class="intro display-4">
             <!-- Good {{getDayPart()}}, {{data.name}} -->
             Surveys for you:
           </h1>
+          </v-card>
         <v-card
           class="d-flex align-content-center flex-wrap transparent"
           flat

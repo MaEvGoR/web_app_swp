@@ -9,9 +9,11 @@
         class="my-5"
       >
         <v-layout row wrap justify-center>
-          <h1 class="intro display-4">
-            Choose Survey:
-          </h1>
+          <v-card class="d-flex align-content-center flex-wrap transparent" flat>
+            <h1 class="intro display-4">
+              Choose Survey:
+            </h1>
+          </v-card>
         <v-card
           class="d-flex align-content-center flex-wrap transparent"
           flat

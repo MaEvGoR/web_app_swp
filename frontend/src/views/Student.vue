@@ -9,11 +9,14 @@
         class="my-5"
       >
         <v-layout row wrap justify-center>
-            <h1 class="intro display-4">
-            Good {{getDayPart()}}, Student!
-            </h1>
-            <h2 class="subintro">Here’re some feedback forms to fill for you</h2>
-            
+            <v-card class="d-flex align-content-center flex-wrap transparent" flat>
+              <h1 class="intro display-4">
+              Good {{getDayPart()}}, Student!
+              </h1>
+            </v-card>
+            <v-card class="d-flex align-content-center flex-wrap transparent" flat>
+              <h2 class="subintro">Here’re some feedback forms to fill for you</h2>
+            </v-card>
             
         <v-card
           class="d-flex align-content-center flex-wrap transparent"
