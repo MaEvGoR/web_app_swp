@@ -23,11 +23,9 @@
         >
          <v-flex xs12 sm6 md4 lg4 v-for="course in data.surveys" :key="course.name">
             <v-card class="text-center ma-2" color="#241663" @click="survey(course.name, course._id)">
-              <v-card-text>
-                <div class="heading">
+              <v-card-title class="justify-center" style="height:100px; font-family: 'Poppins';font-style: normal;color: #EFFFFF; font-weight: 30; font-size: 140%;">
                   {{course.name}}
-                </div>
-              </v-card-text>
+              </v-card-title>
             </v-card>
           </v-flex>
         </v-card>
@@ -110,7 +108,6 @@ export default {
 	//   console.log(data);
 		this.$store.commit("changeQuestion", data);
 		this.$router.push('/fillsurvey');
-
     }
   }
 }
@@ -129,7 +126,6 @@ export default {
     margin-top: 4%;
     margin-bottom: 0.5%;
   }
-
   .subintro{
     font-family: "Poppins";
     font-style: normal;
@@ -140,7 +136,6 @@ export default {
     color: #000000;
     margin-bottom: 5%;
   }
-
   .heading{
     font-family: "Poppins";
     font-style: normal;
@@ -149,7 +144,6 @@ export default {
     font-weight: 30;
     line-height: 400%;
   }
-
   .transparent {
     border-color: transparent!important;
   }

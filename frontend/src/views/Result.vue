@@ -1,7 +1,11 @@
 <template>
 	<v-app>
+    <v-img
+      src="@/assets/backgroundv2.png" 
+      class="background"
+      height = 100%
+    >
 		<v-container
-			style="background: #eae7af;"
 			fluid
 			fill-height
 		>
@@ -55,6 +59,7 @@
 				</v-flex>
 			</v-layout>
 		</v-container>
+    </v-img>
 	</v-app>
 </template>
 

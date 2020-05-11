@@ -33,7 +33,7 @@
 					</div>
 					</div>
 					<div class="text-center pa-2">
-						<v-btn @click="createSurvey">Create Survey</v-btn>
+						<v-btn @click="createSurvey">Send Feedback</v-btn>
 					</div>
 				</v-flex>
 			</v-layout>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-
 export default{
 	name: "Survey",
 	data(){

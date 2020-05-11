@@ -35,12 +35,10 @@
           </v-flex>
             
           <v-flex xs12 sm6 md4 lg4 v-for="course in data.courses" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="clicked(course)">
-              <v-card-text>
-                <div class="heading">
-                  {{course.name}}
-                </div>
-              </v-card-text>
+            <v-card class="ma-2 text-center" color="#241663" @click="clicked(course)">
+              <v-card-title class="justify-center" style="height:100px; font-family: 'Poppins';font-style: normal;color: #EFFFFF; font-weight: 30; font-size: 140%;">
+                  <p>{{course.name}}</p>
+              </v-card-title>
             </v-card>
           </v-flex>
         </v-card>
@@ -77,8 +75,6 @@ export default {
           }),
         }
       );
-
-
       // const res = await fetch('http://0.0.0.0:5000/api/student');
       // const data = await res.json();
       // this.data = data;
@@ -148,7 +144,6 @@ export default {
     margin-top: 4%;
     margin-bottom: 0.5%;
   }
-
   .subintro{
     font-family: "Poppins";
     font-style: normal;
@@ -159,11 +154,9 @@ export default {
     color: #000000;
     /* margin-bottom: 5%; */
   }
-
   .center{
     width:100%
   }
-
   .heading{
     font-family: "Poppins";
     font-style: normal;
@@ -172,7 +165,6 @@ export default {
     font-weight: 30;
     line-height: 400%;
   }
-
   .transparent {
     border-color: transparent!important;
   }

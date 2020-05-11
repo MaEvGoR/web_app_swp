@@ -12,6 +12,8 @@ export default new Vuex.Store({
     year: '',
     idCourse: '',
     idSurvey: '',
+    courseName: '',
+    surveyName: '',
     pressedButton: '',
     courses: [],
     questoins: {},
@@ -50,6 +52,12 @@ export default new Vuex.Store({
     },
     changeCourseid (state, newid) { 
       state.courseid = newid;
+    },
+    changeCourseName(state, courseName){
+      state.courseName = courseName;
+    },
+    changeSurveyName(state, surveyName){
+      state.surveyName = surveyName;
     },
   },
   getters: {

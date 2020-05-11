@@ -19,13 +19,21 @@
           heigth="33%"
           min-height="200"
         >
+          <v-flex v-if="loading" xs12 sm12 md12 lg12>
+            <v-card class="text-center ma-2 elevation-0" style="background-color: transparent">
+              <v-progress-circular
+                :size="70"
+                :width="6"
+                color="#241663"
+                indeterminate
+              ></v-progress-circular>
+            </v-card>
+          </v-flex>
           <v-flex xs12 sm6 md4 lg4 v-for="year in years" :key="year.year">
             <v-card class="text-center ma-2" color="#241663" @click="chooseYear(year.year)">
-              <v-card-text>
-                <div class="heading">
+              <v-card-title class="justify-center" style="height:100px; font-family: 'Poppins';font-style: normal;color: #EFFFFF; font-weight: 30; font-size: 140%;">
                   BS{{year.year}}
-                </div>
-              </v-card-text>
+              </v-card-title>
             </v-card>
           </v-flex>
         </v-card>
@@ -41,6 +49,7 @@ export default {
     return {
       message: '',
       years: [],
+      loading: true,
     }
   },
   mounted: function(){
@@ -51,6 +60,7 @@ export default {
       const response = await fetch('/api/bs_years');
       if(!response.ok) return;
       vm.years = await response.json();
+      vm.loading = false;
     },
     chooseYear(year) {
       this.$store.commit("changeYear", year);

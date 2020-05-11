@@ -21,11 +21,9 @@
         >
           <v-flex xs12 sm6 md4 lg4 v-for="survey in surveys" :key="survey.name">
             <v-card class="text-center ma-2" color="#241663" @click="getSurvey(survey._id)">
-              <v-card-text>
-                <div class="heading">
+              <v-card-title class="justify-center" style="height:100px; font-family: 'Poppins';font-style: normal;color: #EFFFFF; font-weight: 30; font-size: 140%;">
                     {{survey.name}}
-                </div>
-              </v-card-text>
+              </v-card-title>
             </v-card>
           </v-flex>
         </v-card>

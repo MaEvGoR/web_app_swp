@@ -19,13 +19,21 @@
           heigth="33%"
           min-height="200"
         >
+          <v-flex v-if="loading" xs12 sm12 md12 lg12>
+            <v-card class="text-center ma-2 elevation-0" style="background-color: transparent">
+              <v-progress-circular
+                :size="70"
+                :width="6"
+                color="#241663"
+                indeterminate
+              ></v-progress-circular>
+            </v-card>
+          </v-flex>
           <v-flex xs12 sm6 md4 lg4 v-for="course in courses" :key="course.name">
             <v-card class="text-center ma-2" color="#241663" @click="getSurvey(course._id)">
-              <v-card-text>
-                <div class="heading">
+              <v-card-title class="justify-center" style="height:100px; font-family: 'Poppins';font-style: normal;color: #EFFFFF; font-weight: 30; font-size: 140%;">
                     {{course.name}}
-                </div>
-              </v-card-text>
+              </v-card-title>
             </v-card>
           </v-flex>
         </v-card>
@@ -40,6 +48,7 @@ export default {
   data(){
     return {
       courses: [],
+      loading: true,
     }
   },
   mounted: function(){
@@ -58,6 +67,7 @@ export default {
         });
       if(!response.ok) return;
       vm.courses = await response.json();
+      vm.loading = false;
     },
     async getSurvey(id){
       this.$store.commit("changeIdCourse", id);

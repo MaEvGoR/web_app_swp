@@ -1,6 +1,6 @@
 <template>
   <v-container
-      style="background: #eae7af;"
+      style="background: #EFFFFF;"
       fluid
       fill-height
     >

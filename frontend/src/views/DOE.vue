@@ -63,7 +63,6 @@ export default {
   },
   methods: {
     clicked(button) {
-      console.log("clicked");
       this.$store.commit("changeButton", button);
       this.$router.push({path:`/years`});
     },
