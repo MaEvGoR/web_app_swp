@@ -117,7 +117,7 @@ def get_surveys_by_course():
 
     res = db_worker.get_all_surveys(course_id)
 
-    return jsonify({'surveys': res})
+    return jsonify(res)
 
 
 

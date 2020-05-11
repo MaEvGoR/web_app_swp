@@ -19,7 +19,7 @@
 				>
 					<div style="background-color:white" class="pa-3" center outlined>
 					<span><v-text-field v-model="surveyName" label="Name of Survey" solo outlined
-            shaped hint="Name of Course" :rules="['Required']"/></span>
+            shaped hint="Name of Course"/></span>
 					<div v-for="(question, index) in questions" :key="index">
 						<v-text-field v-model="question.title" hint="Question"/>
 						<v-text-field v-if="question.type==='text'" background-color="white" label="Answer" disabled hint="Answer to the question"/>

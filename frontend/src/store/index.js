@@ -11,6 +11,8 @@ export default new Vuex.Store({
     id: '',
     year: '',
     idCourse: '',
+    idSurvey: '',
+    pressedButton: '',
     courses: [],
     questoins: {},
     courseid: '',
@@ -30,6 +32,12 @@ export default new Vuex.Store({
     },
     changeIdCourse(state, idCourse){
       state.idCourse = idCourse;
+    },
+    changeIdSurvey(state, idSurvey){
+      state.idSurvey = idSurvey;
+    },
+    changeButton(state, pressedButton){
+      state.pressedButton = pressedButton;
     },
     changeCourses(state, courses){
       state.courses = courses;

@@ -10,7 +10,7 @@
       >
         <v-layout row wrap justify-center>
           <h1 class="intro display-4">
-            Choose course:
+            Choose Survey:
           </h1>
         <v-card
           class="d-flex align-content-center flex-wrap transparent"
@@ -19,11 +19,11 @@
           heigth="33%"
           min-height="200"
         >
-          <v-flex xs12 sm6 md4 lg4 v-for="course in courses" :key="course.name">
-            <v-card class="text-center ma-2" color="#241663" @click="getSurvey(course._id)">
+          <v-flex xs12 sm6 md4 lg4 v-for="survey in surveys" :key="survey.name">
+            <v-card class="text-center ma-2" color="#241663" @click="getSurvey(survey._id)">
               <v-card-text>
                 <div class="heading">
-                    {{course.name}}
+                    {{survey.name}}
                 </div>
               </v-card-text>
             </v-card>
@@ -39,33 +39,29 @@
 export default {
   data(){
     return {
-      courses: [],
+      surveys: [],
     }
   },
   mounted: function(){
-      this.getCourses(this);
+      this.getSurveys(this);
   },
   methods: {
-    async getCourses(vm) {
-      const response = await fetch('/api/courses', {
+    async getSurveys(vm) {
+      const response = await fetch('/api/get_surveys_by_course', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            year: this.$store.state.year,
+            course_id: this.$store.state.idCourse,
           }),
         });
       if(!response.ok) return;
-      vm.courses = await response.json();
+      vm.surveys = await response.json();
     },
     async getSurvey(id){
-      this.$store.commit("changeIdCourse", id);
-      if(this.$store.state.pressedButton === 'template'){
-        this.$router.push({path:`/template`});
-      }else{
-        this.$router.push({path:`/results`});
-      }
+      this.$store.commit("changeIdSurvey", id);
+      this.$router.push({path:`/result`});
     }
   }
 }
