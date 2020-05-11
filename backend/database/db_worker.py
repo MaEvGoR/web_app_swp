@@ -51,6 +51,20 @@ def get_courses(year):
     query = list(courses.find({'year': year}))
     return [{'name': course['name'], '_id': str(course['_id'])} for course in query]
 
+def get_all_surveys(course_id):
+    survey_ids_by_course = list(courses.find({'_id': ObjectId(course_id)}))[0]['survey_ids']
+
+    surveys_objects = []
+    for survey_id in survey_ids_by_course:
+        survey_obj = list(surveys.find({'_id': survey_id}))[0]
+        surveys_objects.append({'name':survey_obj['name'], '_id': str(survey_id)})
+
+    return surveys_objects
+
+
+
+
+
 
 def get_all_years():
     query = list(courses.find({}))
@@ -258,7 +272,6 @@ def save_answers(user_id, survey_id, course_id, questions_answers):
 
         answers_objects.append(ans_object)
 
-
     for ans_object in answers_objects:
         # update if exists
         # insert if doesn't
@@ -334,8 +347,6 @@ def get_results(survey_id):
                 return_question_object['answers'].append({'option': elem, 'number': 0})
 
         answers_objects = list(answers.find({'question_id': ObjectId(return_question_object['question_id'])}))
-
-
 
         for ans_obj in answers_objects:
             if return_question_object['options_flag']:
