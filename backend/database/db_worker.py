@@ -47,6 +47,34 @@ def course_from_survey(survey_id):
     return query[0]
 
 
+def get_courses(year):
+    query = list(courses.find({'year': year}))
+    return [{'name': course['name'], '_id': str(course['_id'])} for course in query]
+
+def get_all_surveys(course_id):
+    survey_ids_by_course = list(courses.find({'_id': ObjectId(course_id)}))[0]['survey_ids']
+
+    surveys_objects = []
+    for survey_id in survey_ids_by_course:
+        survey_obj = list(surveys.find({'_id': survey_id}))[0]
+        surveys_objects.append({'name':survey_obj['name'], '_id': str(survey_id)})
+
+    return surveys_objects
+
+
+
+
+
+
+def get_all_years():
+    query = list(courses.find({}))
+    years = set()
+    for course in query:
+        years.add(course['year'])
+
+    return [{'year': year} for year in years]
+
+
 def get_student_courses(student_id):
     # return list of courses of student
 
@@ -99,13 +127,20 @@ def get_student_unfilled_courses(student_id):
 
     student_surveys = get_student_surveys_ids(student_id)
 
-    unfilled_surveys_courses = set()
+    unfilled_surveys_courses = []
     for survey_id in student_surveys:
 
         # todo date checking!!!
 
         if num_of_empty_answers(student_id, survey_id) != 0:
-            unfilled_surveys_courses.add(course_from_survey(survey_id)['name'])
+            flag = 0
+            for i in range(len(unfilled_surveys_courses)):
+                if unfilled_surveys_courses[i]['_id'] == str(course_from_survey(survey_id)['_id']):
+                    flag += 1
+
+            if flag == 0:
+                unfilled_surveys_courses.append({'name': course_from_survey(survey_id)['name'],
+                                                 '_id': str(course_from_survey(survey_id)['_id'])})
 
     return list(unfilled_surveys_courses)
 
@@ -155,19 +190,14 @@ def check_login_password(email, password):
     query_result = list(students.find({'email': email, 'password': password}))
 
     if len(query_result) != 0:
-        return_state = {'email': email,
-        'name': query_result[0]['fname'],
-        'status': 'student',
-        '_id': str(query_result[0]['_id'])}
+        return_state = {'status': 'student',
+                        '_id': str(query_result[0]['_id'])}
 
         return return_state
 
-
     query_result = list(doe.find({'email': email, 'password': password}))
     if len(query_result) != 0:
-        return_state = {'email': email,
-                        'name': query_result[0]['fname'],
-                        'status': 'doe',
+        return_state = {'status': 'doe',
                         '_id': str(query_result[0]['_id'])}
 
         return return_state
@@ -175,79 +205,157 @@ def check_login_password(email, password):
     return {'error': 401}
 
 
+def create_new_survey(year, course_id, doe_id, title, n_questions):
+    # year: 17-19
+    # course_id: 123jh1k2j3hkshgrk32
+    # questions: [
+    #     {title: "What you don\'t like about the course?", type: 'text'},
+    #     {title: "Content of the course?", type: 'radio', options: ['Excellent', 'Good', 'Satisfactory', 'Very bad']},
+    # ],
+
+    question_ids = []
+
+    for i in range(len(n_questions)):
+        q_object = {'text': n_questions[i]['title'],
+                    'q_num': i,
+                    'type': n_questions[i]['type']}
+
+        if q_object['type'] == 'radio':
+            q_object['options_flag'] = True
+            q_object['options'] = n_questions[i]['options']
+
+        res_q = questions.insert_one(q_object)
+        question_ids.append(res_q.inserted_id)
+
+    survey_object = {'name': title,
+                     'creation_time': str(datetime.date(datetime.datetime.today().year,
+                                                        datetime.datetime.today().month,
+                                                        datetime.datetime.today().day)),
+                     'expiration_time': str(datetime.date(datetime.datetime.today().year,
+                                                          datetime.datetime.today().month,
+                                                          datetime.datetime.today().day) + datetime.timedelta(days=10)),
+                     'description': fake.text(),
+                     'created_by': doe_id,
+                     'questions': [ObjectId(q_id) for q_id in question_ids]}
+
+    mongo_surv = surveys.insert_one(survey_object)
+
+    courses.update_one({'_id': ObjectId(course_id)},
+                       {'$push': {'survey_ids': mongo_surv.inserted_id}})
+
+    return {'response': 200}
 
 
+def save_answers(user_id, survey_id, course_id, questions_answers):
+    # {'user_id': '7bsd7fg7b3eybdv834',
+    #      'survey_id': 'hsfdb82uejdvu9b29',
+    #      'course_id': 'fjns019eih82b90enj',
+    #      'questions': [
+    #          {'question_id':'isdn29weivfh29evnd',
+    #           'type': 'text',
+    #           'answer': 'awesome'},
+    #          {'question_id': 'idwnj192ewinjv92osig',
+    #           'type': 'text',
+    #           'answer': 'cool'},
+    #          {'question_id': 'asudh91wncdv9328duqw',
+    #           'type': 'radio',
+    #           'answer': 'Excellent'}
+    #      ]}
+
+    answers_objects = []
+    for raw_ans in questions_answers:
+        ans_object = {'student_id': ObjectId(user_id),
+                      'course_id': ObjectId(course_id),
+                      'survey_id': ObjectId(survey_id),
+                      'question_id': ObjectId(raw_ans['_id']),
+                      'answer': raw_ans['title']}
+
+        answers_objects.append(ans_object)
+
+    for ans_object in answers_objects:
+        # update if exists
+        # insert if doesn't
+
+        answers.update({'student_id': ans_object['student_id'],
+                        'course_id': ans_object['course_id'],
+                        'survey_id': ans_object['survey_id'],
+                        'question_id': ans_object['question_id']},
+                       ans_object,
+                       True)
+
+    return {'response': 200}
 
 
-# def check_login_password(email, password):
-#     query_result = list(students.find({'email': email, 'password': password}))
-#     return query_result
+def get_results(survey_id):
+    ## EXAMPLE OF RETURNED OBJECT
 
-# for course in list(courses.find({})):
-#     courses.update_one({'_id': course['_id']}, {'$set': {'survey_ids': []}})
+    # return_obj = {'_id': ObjectId(survey_id),
+    #               'course_name': 'Course Name',
+    #               'name': "Survey Name",
+    #               'creation_time': "2020-05-07",
+    #               'expiration_time': "2020-05-17",
+    #               'description': 'Survey Description',
+    #               'created_by': 'Creator id',
+    #               'results': [
+    #                   {'question_id': ObjectId('Question1_id'),
+    #                    'text': 'Question1 text',
+    #                    'q_num': 'Question1 number',
+    #                    'type': 'Question1 type (text ot radio)',
+    #                    'answers': [{'answer': 'ans1'},
+    #                                {'answer': 'ans2'},
+    #                                {'answer': 'ans3'}
+    #                                ]},
+    #                   {'question_id': ObjectId('Question2_id'),
+    #                    'text': 'Question2 text',
+    #                    'q_num': 'Question2 number',
+    #                    'type': 'Question2 type (text ot radio)',
+    #                    'answers': [{'answer': 'ans1'},
+    #                                {'answer': 'ans2'},
+    #                                {'answer': 'ans3'}
+    #                                ]}
+    #               ]}
 
-# surveys_info = []
+    try:
+        survey_object = list(surveys.find({'_id': ObjectId(survey_id)}))[0]
+    except:
+        raise Exception('There is no such ({}) survey'.format(survey_id))
 
-# for course in list(courses.find({})):
-#     surveys_amount = fake.random_int(min=0, max=2)
-#
-#     for i in range(surveys_amount):
-#         name = fake.random_choices(elements=('Current Course Feedback', 'Last Lecture Feedback',
-#                                              'Quality of course', 'Feedback to Professor'), length=1)[0]
-#
-#         start_date = fake.date_between_dates(date_start=datetime.date(2020, 5, 4), date_end=datetime.date(2020, 5, 10))
-#         end_date = fake.date_between_dates(date_start=datetime.date(2020, 5, 15), date_end=datetime.date(2020, 5, 20))
-#
-#         # print(str(start_date))
-#         #
-#         # creation_time = datetime.datetime.timestamp(start_date)
-#         # expiration_time = datetime.datetime.timestamp(end_date)
-#
-#         description = fake.text()
-#
-#         mongo_surv = surveys.insert_one({'name': name,
-#                                          'creation_time': str(start_date),
-#                                          'expiration_time': str(end_date),
-#                                          'description': description,
-#                                          'created_by': "5eb70b92f58a3003a2d4a292",
-#                                          'questions': []})
-#
-#         courses.update_one({'_id': course['_id']},
-#                            {'$push': {'survey_ids': mongo_surv.inserted_id}})
+    return_obj = {'_id': survey_id,
+                  'name': survey_object['name'],
+                  'course_name': course_from_survey(ObjectId(survey_id))['name'],
+                  'creation_time': survey_object['creation_time'],
+                  'expiration_time': survey_object['expiration_time'],
+                  'description': survey_object['description'],
+                  'created_by': survey_object['created_by'],
+                  'results': []}
 
-# print('hui')
+    for question_obj_id in survey_object['questions']:
+        question_result_obj = list(questions.find({'_id': question_obj_id}))[0]
 
+        return_question_object = {'question_id': str(question_result_obj['_id']),
+                                  'text': question_result_obj['text'],
+                                  'q_num': question_result_obj['q_num'],
+                                  'type': question_result_obj['type'],
+                                  'options_flag': True if question_result_obj['type'] == 'radio' else False,
+                                  'options': question_result_obj['options'] if question_result_obj[
+                                                                                   'type'] == 'radio' else None,
+                                  'answers': []}
 
-# for survey in list(surveys.find({})):
-#     mongo_question = questions.insert_one({'text': 'Put your number here:',
-#                                            'q_num': 0,
-#                                            'type': 0})
-#
-#     surveys.update_one({'_id': survey['_id']},
-#                        {'$push': {'questions': mongo_question.inserted_id}})
-#
-# print('hui')
+        if return_question_object['options_flag']:
 
+            for elem in return_question_object['options']:
+                return_question_object['answers'].append({'option': elem, 'number': 0})
 
-# doe = db['doe']
-#
-# doe_info = []
-#
-# for _ in range(5):
-#     fname = fake.first_name()
-#     lname = fake.last_name()
-#
-#     email = fake.ascii_free_email()
-#     password = fake.word()
-#
-#     doe_info.append({'fname': fname,
-#                      'lname': lname,
-#                      'email': email,
-#                      'password': password})
-#
-# doe_info.append({'fname': 'Maxim',
-#                  'lname': 'Evgrafov',
-#                  'email': 'doe@innopolis.university',
-#                  'password': 'maximevgrafovdoe'})
-#
-# doe.insert_many(doe_info)
+        answers_objects = list(answers.find({'question_id': ObjectId(return_question_object['question_id'])}))
+
+        for ans_obj in answers_objects:
+            if return_question_object['options_flag']:
+                # count
+                return_question_object['answers'][int(ans_obj['answer'])]['number'] += 1
+            else:
+                # just add
+                return_question_object['answers'].append({'answer': ans_obj['answer']})
+
+        return_obj['results'].append(return_question_object)
+
+    return return_obj

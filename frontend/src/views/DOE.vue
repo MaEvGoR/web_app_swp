@@ -20,7 +20,7 @@
           min-height="200"
         >
           <v-flex xs12 sm8 md6 lg4>
-            <v-card class="text-center justify-left card" color="#241663" @click="clicked">
+            <v-card class="text-center justify-left card" color="#241663" @click="clicked('template')">
                 <v-card-text>
                     <div class="heading">
                     Template
@@ -39,7 +39,7 @@
             </h1>
           </v-flex>
           <v-flex xs12 sm8 md6 lg4>
-            <v-card class="text-center justify-left card" color="#241663" @click="clicked">
+            <v-card class="text-center justify-left card" color="#241663" @click="clicked('results')">
                 <v-card-text>
                     <div class="heading">
                         Results
@@ -61,10 +61,15 @@ export default {
       message: '',
     }
   },
+  created: function(){
+    if(this.$store.state.id === ''){
+      this.$router.push({path:`/`});
+    }
+  },
   methods: {
-    clicked() {
-      // console.log("clicked");
-      this.$router.push({path:`/template`});
+    clicked(button) {
+      this.$store.commit("changeButton", button);
+      this.$router.push({path:`/years`});
     },
     getDayPart(){
       const hours = new Date().getHours();

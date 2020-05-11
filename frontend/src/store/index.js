@@ -7,6 +7,17 @@ export default new Vuex.Store({
   state: {
     status: '',
     surveyName: '',
+    surveyList: {},
+    id: '',
+    year: '',
+    idCourse: '',
+    idSurvey: '',
+    courseName: '',
+    surveyName: '',
+    pressedButton: '',
+    courses: [],
+    questoins: {},
+    courseid: '',
   },
   mutations: {
     changeStatus (state, newStatus) {
@@ -15,6 +26,47 @@ export default new Vuex.Store({
     changeSurveyName (state, newName) {
       state.surveyName = newName;
     },
+    changeId(state, id){
+      state.id = id;
+    },
+    changeYear(state, year){
+      state.year = year;
+    },
+    changeIdCourse(state, idCourse){
+      state.idCourse = idCourse;
+    },
+    changeIdSurvey(state, idSurvey){
+      state.idSurvey = idSurvey;
+    },
+    changeButton(state, pressedButton){
+      state.pressedButton = pressedButton;
+    },
+    changeCourses(state, courses){
+      state.courses = courses;
+    },
+    changeSurveyList (state, newSurveylist) { 
+      state.surveyList = newSurveylist;
+    },
+    changeQuestion (state, newQuestion) { 
+      state.questions = newQuestion;
+    },
+    changeCourseid (state, newid) { 
+      state.courseid = newid;
+    },
+    changeCourseName(state, courseName){
+      state.courseName = courseName;
+    },
+    changeSurveyName(state, surveyName){
+      state.surveyName = surveyName;
+    },
+  },
+  getters: {
+    getSurveyList: state => {
+      return state.surveyList;
+    },
+    getId: state =>{
+      return state.id;
+    }
   },
   actions: {
   },

@@ -18,12 +18,12 @@
 					offset-xs1
 				>
 					<div style="background-color:white" class="pa-3" center outlined>
-					<span><v-text-field v-model="surveyName" label="Name of Survey" solo outlined
-            shaped hint="Name of Course"/></span>
-					<div v-for="(question, index) in questions" :key="index">
-						<v-text-field v-model="question.title" hint="Question"/>
-						<v-text-field v-if="question.type==='text'" background-color="white" label="Answer" disabled hint="Answer to the question"/>
-						<v-radio-group row v-if="question.type==='radio'">
+					<span><h1>{{data.name}}</h1></span>
+					<div v-for="(question, index) in data.questions" :key="index">
+						<h3>{{question.text}}</h3>
+						<!-- <v-text-field v-model="question.title" hint="Question"/> -->
+						<v-text-field v-model="question.title" v-if="question.type==='text'" background-color="white" label="Answer" hint="Answer to the question"/>
+						<v-radio-group v-model="question.title" row v-if="question.type==='radio'">
 							<v-radio 
 								v-for="(option,idx) in question.options"
 								:key="idx"
@@ -33,7 +33,7 @@
 					</div>
 					</div>
 					<div class="text-center pa-2">
-						<v-btn @click="createSurvey">Create Survey</v-btn>
+						<v-btn @click="createSurvey">Send Feedback</v-btn>
 					</div>
 				</v-flex>
 			</v-layout>
@@ -58,6 +58,18 @@ export default{
 				{title: "Homework activities?", type: 'radio', options: ['Excellent', 'Good', 'Satisfactory', 'Very bad']},
 				{title: "Clearness of learning?", type: 'radio', options: ['Excellent', 'Good', 'Satisfactory', 'Very bad']},
 			],
+			answers: [
+				{title: "Answer", type: 'text'},
+				{title: "Answer", type: 'text'},
+				{title: "Answer", type: 'radio'},
+				{title: "Answer", type: 'radio',},
+				{title: "Answer?", type: 'radio'},
+				{title: "Answer", type: 'radio'},
+				{title: "Answer", type: 'radio'},
+				{title: "Answer", type: 'radio'},
+			],
+			otvet: {},
+			survey_idtemp: '',
 		}
   },
   created: function(){
@@ -65,24 +77,37 @@ export default{
       this.$router.push({path:`/`});
     }
   },
+	beforeMount(){
+      this.test();
+  },
 	methods:{
+		async test(){
+			this.data = this.$store.state.questions;
+			console.log(this.data);
+			this.survey_idtemp = this.data.survey_id;
+		},
 		async createSurvey(){
-			const response = await fetch('/api/new_survey', {
-				method: 'POST',
+			const temp = {
+				"user_id": this.$store.state.id,
+				"survey_id": this.survey_idtemp,
+				"course_id": this.$store.state.courseid,
+				"answers": this.data.questions
+			};
+			console.log(temp)
+			this.otvet = temp;
+			const request = await fetch("/api/submit_survey",
+				{
+				method: "POST",
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({
-					year: this.$store.state.year,
-					course_id: this.$store.state.idCourse,
-					user_id: this.$store.state.id,
-					title: this.surveyName,
-					questions: this.questions,
-				}),
-			});
-			if(!response.ok) return;
-			const json = await response.json();
-			this.$router.push({path:`/${this.$store.state.status}`});
+				cache: "default",
+				body: JSON.stringify(this.otvet)
+				}
+			);
+			// if(!response.ok) return;
+			// const json = await response.json();
+			this.$router.push('/student')
 		}
 	}
 }
