@@ -63,7 +63,7 @@ export default {
   },
   created: function(){
     if(this.$store.state.id === ''){
-      this.$router.push({path:`/`});
+      this.$router.push({path:'/'});
     }
   },
   mounted: function(){
@@ -83,6 +83,7 @@ export default {
           }),
         }
       );
+      if(!response.ok) return;
       // const res = await fetch('http://0.0.0.0:5000/api/student');
       // const data = await res.json();
       // this.data = data;

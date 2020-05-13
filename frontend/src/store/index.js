@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     status: '',
+    authorised: false,
     surveyName: '',
     surveyList: {},
     id: '',
@@ -59,6 +60,9 @@ export default new Vuex.Store({
     changeSurveyName(state, surveyName){
       state.surveyName = surveyName;
     },
+    changeAuthorised(state, authorised){
+      state.authorised = authorised;
+    }
   },
   getters: {
     getSurveyList: state => {

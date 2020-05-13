@@ -48,44 +48,46 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      source: String,
-    },
-    data() {
-      return {
-        email: '',
-        password: '',
-        showPassword: false,
-        user: null
-      };
-    },
-    created: function(){
-      if(this.$store.state.id === ''){
-        this.$router.push({path:`/`});
-      }
-    },
-    methods: {
-      async login() {
-        const response = await fetch('/api/log_in', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password,
-          }),
-        });
-        if(!response.ok) return;
-        const json = await response.json();
-        this.user = json;
-        this.$store.commit("changeStatus", this.user.status);
-        this.$store.commit("changeId", this.user._id);
-        this.$router.push({path:`/${this.user.status}`});
-        this.email = '';
-        this.password = '';
-      }
-    } 
-  }
+
+export default {
+  props: {
+    source: String,
+  },
+  data() {
+    return {
+      email: '',
+      password: '',
+      showPassword: false,
+      user: null
+    };
+  },
+  // created: function(){
+  //   if(this.$store.state.id === ''){
+  //     this.$router.push({path:'/'});
+  //   }
+  // },
+  methods: {
+    async login() {
+      const response = await fetch('/api/log_in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: this.email,
+          password: this.password,
+        }),
+      });
+      if(!response.ok) return;
+      const json = await response.json();
+      this.user = json;
+      this.$store.commit("changeStatus", this.user.status);
+      this.$store.commit("changeId", this.user._id);
+      this.$store.commit("changeAuthorised", true);
+      this.$router.push({path:`/${this.user.status}`});
+      this.email = '';
+      this.password = '';
+    }
+  } 
+}
 </script>

@@ -9,7 +9,7 @@
             contain
             ></v-img>
             <v-spacer></v-spacer>
-            <v-btn class="white--text" color="#160F30" v-if="visibility">
+            <v-btn class="white--text" color="#160F30" v-if="visibility === true" @click="signOut">
                 <span>Sign out</span>
             </v-btn>
         </v-app-bar>
@@ -18,9 +18,14 @@
 
 <script>
 export default {
-    props:{
+    props: {
         visibility: false
+    },
+    methods: {
+        signOut(){
+            this.$router.push('/');
+            this.$store.commit("changeAuthorised", false);
+        }
     }
-    
 }
 </script>

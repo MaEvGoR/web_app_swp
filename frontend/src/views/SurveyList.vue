@@ -49,8 +49,6 @@ export default {
         {name: 'Sport'},
         {name: 'Artificial Intelligence'}
       ],
-      // mess: {'course':'Software Project'}
-      // mess: {course: 'Control Theory'}
       data: {},
     }
   },
@@ -60,16 +58,12 @@ export default {
     }
   },
   beforeMount(){
-      this.test();
+    this.test();
   },
   methods: {
-    async test(){
-    //   console.log(1111);
-      // console.log(this.$store.getters.getSurveyList)
+    test(){
       const tempd = this.$store.getters.getSurveyList;
-      // console.log(data);
       this.data = tempd
-    //   console.log(this.data)
     },
     getDayPart(){
       const hours = new Date().getHours();
@@ -84,33 +78,26 @@ export default {
       }
     },
     async survey(coursename, courseid) {     
-	//   console.log(JSON.stringify(this.mess));
-		const userid = this.$store.state.id;
+		  const userid = this.$store.state.id;
       const message = {
 		  	"survey_name": coursename,
 		  	"survey_id": courseid,
-			"_id": userid,
+			  "_id": userid,
 			};
-		// console.log(message);
-		this.mess = message;
-      const request = new Request(
-        "/api/survey",
-        {
+		  this.mess = message;
+      const request = new Request("/api/survey",{
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
-          // mode: "cors",
           cache: "default",
-          body: JSON.stringify(this.mess)
-        }
-      );
+          body: JSON.stringify(this.mess),
+        });
       const res = await fetch(request);
       const data = await res.json();
-	  this.data = data;
-	//   console.log(data);
-		this.$store.commit("changeQuestion", data);
-		this.$router.push('/fillsurvey');
+	    this.data = data;
+		  this.$store.commit("changeQuestion", data);
+		  this.$router.push('/fillsurvey');
     }
   }
 }

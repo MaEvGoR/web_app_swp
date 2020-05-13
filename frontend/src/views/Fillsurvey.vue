@@ -21,7 +21,6 @@
 					<span><h1>{{data.name}}</h1></span>
 					<div v-for="(question, index) in data.questions" :key="index">
 						<h3>{{question.text}}</h3>
-						<!-- <v-text-field v-model="question.title" hint="Question"/> -->
 						<v-text-field v-model="question.title" v-if="question.type==='text'" background-color="white" label="Answer" hint="Answer to the question"/>
 						<v-radio-group v-model="question.title" row v-if="question.type==='radio'">
 							<v-radio 
@@ -78,12 +77,11 @@ export default{
     }
   },
 	beforeMount(){
-      this.test();
+    this.test();
   },
 	methods:{
-		async test(){
+		test(){
 			this.data = this.$store.state.questions;
-			console.log(this.data);
 			this.survey_idtemp = this.data.survey_id;
 		},
 		async createSurvey(){
@@ -93,20 +91,15 @@ export default{
 				"course_id": this.$store.state.courseid,
 				"answers": this.data.questions
 			};
-			console.log(temp)
 			this.otvet = temp;
-			const request = await fetch("/api/submit_survey",
-				{
-				method: "POST",
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				cache: "default",
-				body: JSON.stringify(this.otvet)
-				}
-			);
-			// if(!response.ok) return;
-			// const json = await response.json();
+			const request = await fetch("/api/submit_survey",{
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: "default",
+          body: JSON.stringify(this.otvet),
+				});
 			this.$router.push('/student')
 		}
 	}

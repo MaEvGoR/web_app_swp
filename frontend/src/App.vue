@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-    <Navbar/>
+    <Navbar :visibility="this.$store.state.authorised"></Navbar>
     <v-content>
       <router-view />
     </v-content>

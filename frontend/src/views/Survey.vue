@@ -18,19 +18,19 @@
 					offset-xs1
 				>
 					<div style="background-color:white" class="pa-3">
-					<h1 condensed >{{surveyName}}</h1>
-					<div v-for="(question, index) in questions" :key="index">
-						{{question.title}}
-						<v-text-field v-if="question.type==='text'" v-model="question.answer" label="Answer" hint="Answer to the question"/>
-						<v-radio-group row v-if="question.type==='radio'">
-							<v-radio 
-								v-for="(option,idx) in question.options"
-								:key="idx"
-								:label="option"
-                                :value="idx">
-							</v-radio>
-						</v-radio-group>
-					</div>
+            <h1 condensed >{{surveyName}}</h1>
+            <div v-for="(question, index) in questions" :key="index">
+              {{question.title}}
+              <v-text-field v-if="question.type==='text'" v-model="question.answer" label="Answer" hint="Answer to the question"/>
+              <v-radio-group row v-if="question.type==='radio'">
+                <v-radio 
+                  v-for="(option,idx) in question.options"
+                  :key="idx"
+                  :label="option"
+                  :value="idx">
+                </v-radio>
+              </v-radio-group>
+            </div>
 					</div>
 					<div class="text-center pa-2">
 						<v-btn @click="submit">Send feedback</v-btn>
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-
 export default{
 	name: "Survey",
 	data(){
@@ -80,7 +79,6 @@ export default{
 			});
 			if(!response.ok) return;
 			const json = await response.json();
-			// console.log(json);
 			this.$router.push({path:`/${this.$store.state.status}`});
 		}
 	}
